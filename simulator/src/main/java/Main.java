@@ -22,6 +22,6 @@ public class Main {
                 fileCreator.createFilesAsync(droneFiles);
                 System.out.println("generating files");
             }
-        }, 0, 1000L * config.getRefreshRate());
+        }, 0, 1000L * config.getRefreshRateInSeconds());
     }
 }

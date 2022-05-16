@@ -19,9 +19,9 @@ public class Configuration {
     private Double startLat;
     private Double startLong;
     private Double positionSpread;
-    private Integer refreshRate;
+    private Integer refreshRateInSeconds;
     private String createdFileTypes;
-    private Integer numberOfFiles;
+    private Integer maxNumberOfFiles;
 
     public static Configuration initConfiguration(String filename) throws IOException, NoConfigFileException {
         var file = Configuration.class

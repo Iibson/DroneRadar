@@ -24,7 +24,7 @@ public class ConfigurationTests {
         Assertions.assertEquals(50.09, config.getStartLat());
         Assertions.assertEquals(19.94, config.getStartLong());
         Assertions.assertEquals(0.5, config.getPositionSpread());
-        Assertions.assertEquals(5, config.getRefreshRate());
-        Assertions.assertEquals(5, config.getNumberOfFiles());
+        Assertions.assertEquals(5, config.getRefreshRateInSeconds());
+        Assertions.assertEquals(5, config.getMaxNumberOfFiles());
     }
 }
