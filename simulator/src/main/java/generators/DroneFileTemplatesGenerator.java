@@ -1,5 +1,6 @@
 package generators;
 
+import lombok.Getter;
 import models.Configuration;
 import models.DroneFileTemplate;
 import models.enums.FileFlag;
@@ -10,12 +11,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-public class DroneFileGenerator {
+public class DroneFileTemplatesGenerator {
     private final Configuration configuration;
+    @Getter
     private final List<DroneFileTemplate> droneFileTemplates;
     private final Random random;
 
-    public DroneFileGenerator(Configuration configuration) {
+    public DroneFileTemplatesGenerator(Configuration configuration) {
         this.random = new Random();
         this.configuration = configuration;
         this.droneFileTemplates = initDroneFiles(configuration);
@@ -24,7 +26,7 @@ public class DroneFileGenerator {
     public List<DroneFileTemplate> updateDroneFiles() {
         var date = new Date();
         droneFileTemplates.forEach(drone -> {
-            var distInKm =  (double) drone.getSpeed() / 3600f * configuration.getRefreshRate();
+            var distInKm =  (double) drone.getSpeed() / 3600f * configuration.getRefreshRateInSeconds();
             var angleInRad = drone.getHeading() * Math.PI / 180;
             var updateLat = Math.cos(angleInRad) * distInKm;
             var updateLong = Math.sin(angleInRad) * distInKm;

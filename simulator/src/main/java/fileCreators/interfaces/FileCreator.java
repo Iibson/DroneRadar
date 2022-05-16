@@ -1,10 +1,10 @@
-package fileCreators;
+package fileCreators.interfaces;
 
-import models.DroneFile;
+import models.DroneFileTemplate;
 
 import java.util.List;
 
 public interface FileCreator {
-    void createFile(DroneFile droneFile);
-    void createFilesAsync(List<DroneFile> droneFiles);
+    void createFile(DroneFileTemplate droneFileTemplate);
+    void createFilesAsync(List<DroneFileTemplate> droneFileTemplates);
 }
