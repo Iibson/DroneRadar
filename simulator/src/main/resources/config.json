@@ -1,0 +1,10 @@
+{
+  "filePath": "---folder----",
+  "createdFileTypes" : "csv",
+  "droneNumber": 10,
+  "startLat": 50.09,
+  "startLong": 19.94,
+  "positionSpread": 0.5,
+  "refreshRate": 5,
+  "numberOfFiles": 5
+}
