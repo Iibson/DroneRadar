@@ -21,11 +21,16 @@ public class Main {
 
             @Override
             public void run() {
-                if(this.iterations == this.maxIterations) cancel();
-                var droneFiles = droneFileGenerator.updateDroneFiles();
-                fileCreator.createFilesAsync(droneFiles);
-                System.out.println("generating files");
-                iterations++;
+                if(this.iterations == this.maxIterations) {
+                    System.out.println("stopping");
+                    cancel();
+                } else {
+                    var droneFiles = droneFileGenerator.updateDroneFiles();
+                    fileCreator.createFilesAsync(droneFiles);
+                    System.out.println("generating files");
+                    iterations++;
+                }
+
             }
         }, 0, 1000L * config.getRefreshRateInSeconds());
     }
