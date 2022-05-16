@@ -16,11 +16,21 @@ public class Main {
         var timer = new Timer();
 
         timer.schedule(new TimerTask() {
+            int iterations = 0;
+            final int maxIterations = config.getMaxNumberOfFiles();
+
             @Override
             public void run() {
-                var droneFiles = droneFileGenerator.updateDroneFiles();
-                fileCreator.createFilesAsync(droneFiles);
-                System.out.println("generating files");
+                if(this.iterations == this.maxIterations) {
+                    System.out.println("stopping");
+                    cancel();
+                } else {
+                    var droneFiles = droneFileGenerator.updateDroneFiles();
+                    fileCreator.createFilesAsync(droneFiles);
+                    System.out.println("generating files");
+                    iterations++;
+                }
+
             }
         }, 0, 1000L * config.getRefreshRateInSeconds());
     }
