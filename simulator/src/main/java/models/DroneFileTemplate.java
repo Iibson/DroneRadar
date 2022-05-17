@@ -89,6 +89,7 @@ public class DroneFileTemplate {
         res.add(new DroneFileValueDto("Country", this.country));
         res.add(new DroneFileValueDto("Operator", this.operator));
         res.add(new DroneFileValueDto("Identification", this.identification.toString()));
+        res.add(new DroneFileValueDto("identificationLabel", this.identificationLabel));
         res.add(new DroneFileValueDto("Model", this.model));
         res.add(new DroneFileValueDto("RegistrationNumber", this.registrationNumber));
         res.add(new DroneFileValueDto("Sign", this.sign));

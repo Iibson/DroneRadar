@@ -43,6 +43,7 @@ public class DroneFileTemplateTests {
                 "Country",
                 "Operator",
                 "Identification",
+                "identificationLabel",
                 "Model",
                 "RegistrationNumber",
                 "Sign",
