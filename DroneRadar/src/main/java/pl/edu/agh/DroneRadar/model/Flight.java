@@ -1,16 +1,26 @@
 package pl.edu.agh.DroneRadar.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Flight {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    long id;
-
-    Drone drone;
+    private Long id;
 
     @ManyToOne
-    Set<Record> records;
+    private Drone drone;
+
+    @OneToMany
+    private Set<Record> records;
 }
