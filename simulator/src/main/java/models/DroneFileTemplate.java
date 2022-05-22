@@ -2,13 +2,14 @@ package models;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import models.enums.FileFlag;
 
 import java.util.*;
 
 @Data
 @Builder
-public class DroneFile {
+public class DroneFileTemplate {
     //general
     private String fileName;
     @Builder.Default
@@ -70,7 +71,7 @@ public class DroneFile {
     @Builder.Default
     private String ext6 = "";
 
-    public List<DroneFileValueDto> getMappedFiledValues() {
+    public List<DroneFileValueDto> getFileValues() {
 
         var res = new ArrayList<DroneFileValueDto>();
 
