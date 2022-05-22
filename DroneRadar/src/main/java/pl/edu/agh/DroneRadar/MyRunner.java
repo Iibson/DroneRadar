@@ -2,7 +2,6 @@ package pl.edu.agh.DroneRadar;
 
 import com.opencsv.bean.CsvToBeanBuilder;
 import org.apache.commons.lang3.LocaleUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import pl.edu.agh.DroneRadar.component.Coordinate;
@@ -10,23 +9,18 @@ import pl.edu.agh.DroneRadar.component.Direction;
 import pl.edu.agh.DroneRadar.component.RecordType;
 import pl.edu.agh.DroneRadar.model.*;
 import pl.edu.agh.DroneRadar.model.Record;
-import pl.edu.agh.DroneRadar.repository.FlightDataEntryRepository;
-import pl.edu.agh.DroneRadar.model.*;
-import pl.edu.agh.DroneRadar.model.Record;
-import pl.edu.agh.DroneRadar.repository.SensorRepository;
 import pl.edu.agh.DroneRadar.service.*;
 
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.HashSet;
 import java.util.Locale;
-import java.util.Set;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class MyRunner implements CommandLineRunner {
@@ -62,6 +56,8 @@ public class MyRunner implements CommandLineRunner {
                 .signal("signal")
                 .sensorCoordinate(new Coordinate(11,11,11, Direction.N, 11,11,11, Direction.E))
                 .build();
+
+        sensorService.addSensor(sensor);
 
         BasicRecordData basicRecordData = BasicRecordData.builder()
                 .recordType(RecordType.BEG)
@@ -99,7 +95,7 @@ public class MyRunner implements CommandLineRunner {
         flightDataEntry = flightDataEntryService.addFlightDataEntry(flightDataEntry);
 
         System.out.println(flightDataEntry);
-/*
+
         Record record = Record.builder()
                 .basicRecordData(basicRecordData)
                 .flightDataEntry(flightDataEntry)
@@ -121,14 +117,14 @@ public class MyRunner implements CommandLineRunner {
         flightService.addRecordToFlight(flight.getId(), record);
         flightService.addRecordToFlight(flight.getId(), record);
 
-        System.out.println(flight);*/
+        System.out.println(flight);
 
         watchDirectory();
     }
 
     public void watchDirectory() throws IOException, InterruptedException {
         WatchService watchService = FileSystems.getDefault().newWatchService();
-        Path path = Paths.get("../flightData/");
+        Path path = Paths.get("flightData/");
         path.register(
                 watchService,
                 StandardWatchEventKinds.ENTRY_CREATE,
@@ -148,7 +144,7 @@ public class MyRunner implements CommandLineRunner {
 
     public void parseCSV(String fileName) throws FileNotFoundException {
 
-        String filePath = "../flightData/"+fileName;
+        String filePath = "flightData/" +fileName;
         List<CSVFlightData> flights = new CsvToBeanBuilder(new FileReader(filePath))
                 .withType(CSVFlightData.class)
                 .build()
