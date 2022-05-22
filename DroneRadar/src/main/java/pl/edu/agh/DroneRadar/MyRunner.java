@@ -99,7 +99,7 @@ public class MyRunner implements CommandLineRunner {
         flightDataEntry = flightDataEntryService.addFlightDataEntry(flightDataEntry);
 
         System.out.println(flightDataEntry);
-
+/*
         Record record = Record.builder()
                 .basicRecordData(basicRecordData)
                 .flightDataEntry(flightDataEntry)
@@ -121,8 +121,7 @@ public class MyRunner implements CommandLineRunner {
         flightService.addRecordToFlight(flight.getId(), record);
         flightService.addRecordToFlight(flight.getId(), record);
 
-        System.out.println(flight);
-        System.out.println(sensorRepository.findById(1L));*/
+        System.out.println(flight);*/
 
         watchDirectory();
     }
