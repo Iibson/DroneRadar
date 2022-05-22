@@ -124,7 +124,7 @@ public class MyRunner implements CommandLineRunner {
 
     public void watchDirectory() throws IOException, InterruptedException {
         WatchService watchService = FileSystems.getDefault().newWatchService();
-        Path path = Paths.get("flightData/");
+        Path path = Paths.get("../flightData/");
         path.register(
                 watchService,
                 StandardWatchEventKinds.ENTRY_CREATE,
@@ -144,7 +144,7 @@ public class MyRunner implements CommandLineRunner {
 
     public void parseCSV(String fileName) throws FileNotFoundException {
 
-        String filePath = "flightData/" +fileName;
+        String filePath = "../flightData/" +fileName;
         List<CSVFlightData> flights = new CsvToBeanBuilder(new FileReader(filePath))
                 .withType(CSVFlightData.class)
                 .build()
