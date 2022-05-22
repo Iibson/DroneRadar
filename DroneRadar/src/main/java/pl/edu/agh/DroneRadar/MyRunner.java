@@ -111,5 +111,11 @@ public class MyRunner implements CommandLineRunner {
         flight = flightService.addFlight(flight);
 
         System.out.println(flight);
+
+        flightService.addRecordToFlight(flight.getId(), record);
+        flightService.addRecordToFlight(flight.getId(), record);
+        flightService.addRecordToFlight(flight.getId(), record);
+
+        System.out.println(flight);
     }
 }

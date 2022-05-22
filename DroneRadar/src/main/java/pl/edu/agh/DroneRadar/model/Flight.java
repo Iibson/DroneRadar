@@ -21,6 +21,6 @@ public class Flight {
     @ManyToOne
     private Drone drone;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private Set<Record> records;
 }
