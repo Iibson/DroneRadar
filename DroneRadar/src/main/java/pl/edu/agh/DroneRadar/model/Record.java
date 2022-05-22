@@ -1,21 +1,27 @@
 package pl.edu.agh.DroneRadar.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Data
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Record {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    long id;
+    private Long id;
 
     @ManyToOne
-    Sensor sensor;
+    private Sensor sensor;
 
     @OneToOne
-    BasicRecordData basicRecordData;
+    private BasicRecordData basicRecordData;
 
     @OneToOne
-    FlightDataEntry flightDataEntry;
+    private FlightDataEntry flightDataEntry;
 }

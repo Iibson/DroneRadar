@@ -1,19 +1,25 @@
 package pl.edu.agh.DroneRadar.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import pl.edu.agh.DroneRadar.component.Coordinate;
 
-@Data
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class FlightDataEntry {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    Long Id;
+    private Long Id;
 
     @Embedded
-    Coordinate coordinate;
-    float heading;
-    float speed;
-    float altitude;
+    private Coordinate coordinate;
+    private float heading;
+    private float speed;
+    private float altitude;
 }

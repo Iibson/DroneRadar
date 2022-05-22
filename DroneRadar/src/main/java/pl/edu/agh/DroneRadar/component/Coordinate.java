@@ -1,15 +1,25 @@
 package pl.edu.agh.DroneRadar.component;
 
 import jakarta.persistence.Embeddable;
+import lombok.Builder;
 import lombok.Data;
 import pl.edu.agh.DroneRadar.component.Direction;
 
-@Data
 @Embeddable
+@Data
 public class Coordinate {
-    float latitude;
-    float longitude;
-    Direction direction;
+    private float latitude;
+    private float longitude;
+    private Direction direction;
+
+    public Coordinate(float degreesLat, float minutesLat, float secondsLat, Direction directionLat, float degreesLon, float minutesLon, float secondsLon, Direction directionLon){
+        setLatitude(degreesLat, minutesLat, secondsLat, directionLat);
+        setLongitude(degreesLon, minutesLon, secondsLon, directionLon);
+    }
+
+    public Coordinate() {
+
+    }
 
     public void setLatitude(float degrees, float minutes, float seconds, Direction direction) {
         if(!direction.isLatitudinal())

@@ -4,20 +4,26 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import pl.edu.agh.DroneRadar.component.RecordType;
 
 import java.sql.Timestamp;
 
-@Data
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class BasicRecordData {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    long id;
+    private Long id;
 
-    String sourceInternalId;
-    String server;
-    Timestamp timestamp;
-    RecordType recordType;
+    private String sourceInternalId;
+    private String server;
+    private Timestamp timestamp;
+    private RecordType recordType;
 }
