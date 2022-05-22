@@ -1,11 +1,14 @@
 package pl.edu.agh.DroneRadar.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.ToString;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -13,6 +16,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString
 public class Flight {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,5 +26,5 @@ public class Flight {
     private Drone drone;
 
     @OneToMany(fetch = FetchType.EAGER)
-    private Set<Record> records;
+    private Set<Record> records = new HashSet<>();
 }
