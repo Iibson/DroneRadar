@@ -1,4 +1,4 @@
-package com.droneradar.droneradarbackend.controllers;
+package pl.edu.agh.DroneRadar.controller;
 
 import com.droneradar.droneradarbackend.model.MapObjectInfoDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +10,7 @@ import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
+import pl.edu.agh.DroneRadar.cache.SystemCacheService;
 
 import java.util.*;
 
@@ -20,27 +21,23 @@ import java.util.*;
 @EnableScheduling
 @Controller
 public class SocketCommunicationController {
-
     private static SimpMessageSendingOperations messageSender;
+    private final SystemCacheService cacheService;
 
-    public SocketCommunicationController(SimpMessageSendingOperations messageSender) {
+    public SocketCommunicationController(SimpMessageSendingOperations messageSender, SystemCacheService cacheService) {
         SocketCommunicationController.messageSender = messageSender;
+        this.cacheService = cacheService;
     }
 
     @Scheduled(fixedDelay = 1000)
     public void sendMapData() {
-        List<MapObjectInfoDto> objects = new LinkedList<>();
-        Random random = new Random();
-        for (int i = 0; i < 1000; i++) {
-
-            MapObjectInfoDto object = new MapObjectInfoDto((int) System.currentTimeMillis(),
-                    (random.nextInt(36000) - 18000)/100.0,
-                    (random.nextInt(36000) - 18000)/100.0,
-                    String.valueOf(System.currentTimeMillis()+i)
-            );
-            objects.add(object);
-        }
-        System.out.println(System.currentTimeMillis());
-        messageSender.convertAndSend("/client/map-data", objects.toArray());
+        var objects = cacheService.getLatestRecordsForDrones()
+                .stream()
+                .map(dto -> new MapObjectInfoDto((int) System.currentTimeMillis(),
+                        dto.record().getFlightDataEntry().getCoordinate().getLatitude(),
+                        dto.record().getFlightDataEntry().getCoordinate().getLongitude(),
+                        dto.droneIdentification().toString()))
+                .toArray();
+        messageSender.convertAndSend("/client/map-data", objects);
     }
 }

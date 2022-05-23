@@ -56,9 +56,6 @@ export class MapViewComponent implements AfterViewInit, OnInit {
     );
 
     tiles.addTo(this.map);
-    L.marker([51.5, -0.09], { icon: this.planeIcon })
-      .bindPopup('XD')
-      .addTo(this.map);
   }
 
   getUserLocation(): void {

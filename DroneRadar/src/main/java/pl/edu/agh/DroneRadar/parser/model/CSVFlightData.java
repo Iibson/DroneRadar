@@ -1,4 +1,4 @@
-package pl.edu.agh.DroneRadar.model;
+package pl.edu.agh.DroneRadar.parser.model;
 
 import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvBindByPosition;
@@ -49,7 +49,7 @@ public class CSVFlightData {
     private String operator;
 
     @CsvBindByName(column = "Identification")
-    private String identification;
+    private String droneIdentification;
 
     @CsvBindByName(column = "IdentificationLabel")
     private String identificationLabel;

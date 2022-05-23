@@ -3,6 +3,7 @@ package fileCreators;
 import fileCreators.interfaces.FileCreator;
 import models.DroneFileTemplate;
 import models.DroneFileValueDto;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -24,10 +25,12 @@ public record CsvFileCreator(String dirPath) implements FileCreator {
                     var file = new File(dirPath + "\\" + x.getFileName() + ".csv");
                     try {
                         file.createNewFile();
-                    } catch (IOException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    return new Thread(() -> writeToCsv(file, x));
+                    return new Thread(() -> {
+                        writeToCsv(file, x);
+                    });
                 })
                 .collect(Collectors.toList());
 
