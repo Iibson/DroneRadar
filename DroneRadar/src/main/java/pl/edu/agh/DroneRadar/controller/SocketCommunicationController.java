@@ -1,18 +1,12 @@
 package pl.edu.agh.DroneRadar.controller;
 
-import com.droneradar.droneradarbackend.model.MapObjectInfoDto;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.DestinationVariable;
-import org.springframework.messaging.handler.annotation.MessageMapping;
+import pl.edu.agh.DroneRadar.dto.MapObjectInfoDto;
 
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import pl.edu.agh.DroneRadar.cache.SystemCacheService;
-
-import java.util.*;
 
 
 /**
