@@ -4,14 +4,18 @@ import fileCreators.factories.FileCreatorFactory;
 import generators.DroneFileTemplatesGenerator;
 import models.Configuration;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Timer;
+import org.apache.commons.io.FileUtils;
 import java.util.TimerTask;
 
 public class Main {
     public static void main(String[] args) throws IOException, NoConfigFileException, InterruptedException, WrongFileCreatorType {
         var config = Configuration.initConfiguration("config.json");
         var droneFileGenerator = new DroneFileTemplatesGenerator(config);
+        FileUtils.cleanDirectory(new File(config.getFilePath()));
+
         var fileCreator = FileCreatorFactory.getFileCreator(config.getCreatedFileTypes(), config.getFilePath());
         var timer = new Timer();
 

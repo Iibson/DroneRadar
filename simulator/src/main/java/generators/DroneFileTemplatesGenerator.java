@@ -15,10 +15,8 @@ public class DroneFileTemplatesGenerator {
     private final Configuration configuration;
     @Getter
     private final List<DroneFileTemplate> droneFileTemplates;
-    private final Random random;
 
     public DroneFileTemplatesGenerator(Configuration configuration) {
-        this.random = new Random();
         this.configuration = configuration;
         this.droneFileTemplates = initDroneFiles(configuration);
     }
@@ -59,6 +57,7 @@ public class DroneFileTemplatesGenerator {
                 .time(date)
                 .id(id)
                 .idExt(id)
+                .identification(id)
                 .flag(FileFlag.BEG)
                 .latitude(position.getValue0())
                 .longitude(position.getValue1())
@@ -69,21 +68,22 @@ public class DroneFileTemplatesGenerator {
     }
 
     private Pair<Double, Double> initStartingLatLong(Double latitude, Double longitude, Double spread) {
-        var r = spread * random.nextDouble();
+        var r = new Random().nextDouble() * spread;
         return new Pair<>(latitude + r, longitude + r);
     }
 
     private Integer initHeading() {
-        return Math.abs(random.nextInt()) % 361;
+        return Math.abs(new Random().nextInt()) % 361;
     }
 
     private Integer initSpeed() {
-        return Math.abs(random.nextInt()) % 400;
+        return Math.abs(new Random().nextInt()) % 15 + 15;
     }
 
     //TODO improve this shit
     private Integer createNewHeading(Integer currentHeading) {
-        if(random.nextInt() % 10 < 9) return currentHeading;
+        var random =  new Random();
+        if(random.nextInt() % 10 < 5) return currentHeading;
         var newValue = random.nextInt() % 15 + currentHeading;
         if(newValue > 360) newValue = newValue % 360;
         else if(newValue < 0) newValue = 360 + newValue;

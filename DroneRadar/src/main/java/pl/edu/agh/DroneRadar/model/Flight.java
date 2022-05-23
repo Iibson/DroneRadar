@@ -8,8 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Data
@@ -26,5 +25,6 @@ public class Flight {
     private Drone drone;
 
     @OneToMany(fetch = FetchType.EAGER)
-    private Set<Record> records = new HashSet<>();
+    @Builder.Default
+    private List<Record> records = new ArrayList<>();
 }
