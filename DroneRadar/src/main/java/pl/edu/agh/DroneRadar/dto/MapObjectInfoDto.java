@@ -1,4 +1,4 @@
-package com.droneradar.droneradarbackend.model;
+package pl.edu.agh.DroneRadar.dto;
 
 public class MapObjectInfoDto {
     public int objectId;
