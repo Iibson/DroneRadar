@@ -1,6 +1,7 @@
 package pl.edu.agh.DroneRadar;
 
 import com.opencsv.bean.CsvToBeanBuilder;
+import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.LocaleUtils;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -11,6 +12,8 @@ import pl.edu.agh.DroneRadar.model.*;
 import pl.edu.agh.DroneRadar.model.Record;
 import pl.edu.agh.DroneRadar.parser.model.CSVFlightData;
 import pl.edu.agh.DroneRadar.service.*;
+import pl.edu.agh.DroneRadar.systemCache.interfaces.SystemCache;
+import pl.edu.agh.DroneRadar.systemCache.models.DroneCacheEntry;
 
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -24,6 +27,7 @@ import java.util.List;
 import java.util.Set;
 
 @Component
+@AllArgsConstructor
 public class MyRunner implements CommandLineRunner {
 
     private final BasicRecordDataService basicRecordDataService;
@@ -32,25 +36,15 @@ public class MyRunner implements CommandLineRunner {
     private final FlightService flightService;
     private final RecordService recordService;
     private final SensorService sensorService;
-
-    public MyRunner(
-            BasicRecordDataService basicRecordDataService,
-            DroneService droneService,
-            FlightDataEntryService flightDataEntryService,
-            FlightService flightService,
-            RecordService recordService,
-            SensorService sensorService
-    ) {
-        this.basicRecordDataService = basicRecordDataService;
-        this.droneService = droneService;
-        this.flightDataEntryService = flightDataEntryService;
-        this.flightService = flightService;
-        this.recordService = recordService;
-        this.sensorService = sensorService;
-    }
+    private final SystemCache systemCache;
 
     @Override
     public void run(String... args) throws Exception {
+        for(int i = 0; i < 10000; i++) {
+            systemCache.insertOrUpdateEntry(new DroneCacheEntry((float) i, (float) i, "name", (short) (i % 100)));
+        }
+
+        var entries = systemCache.getLatestEntries();
 //        Sensor sensor = Sensor.builder()
 //                .frequency(111)
 //                .sensorLabel("sensor")
