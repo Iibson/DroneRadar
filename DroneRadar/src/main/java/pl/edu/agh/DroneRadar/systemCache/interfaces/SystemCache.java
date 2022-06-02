@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface SystemCache {
 
+    List<DroneCacheEntry> getLatestEntriesByArea(float maxLat, float maxLong, float minLat, float minLong);
     List<DroneCacheEntry> getLatestEntries();
     void insertOrUpdateEntry(DroneCacheEntry droneCacheEntry);
     void removeEntryByIdentification(Short droneIdentification);

@@ -21,9 +21,9 @@ public class SystemCacheTests {
     @Test
     public void updateEntryOnUpdateAction() {
         //given
-        cache.insertOrUpdateEntry(new DroneCacheEntry(1f, 1f, "name", (short) 1));
+        cache.insertOrUpdateEntry(new DroneCacheEntry(1f, 1f, 1f, "name", (short) 1));
         //when
-        cache.insertOrUpdateEntry(new DroneCacheEntry(2f, 2f, "name", (short) 1));
+        cache.insertOrUpdateEntry(new DroneCacheEntry(2f, 2f, 1f, "name", (short) 1));
         //then
         var entry = cache.getLatestEntries()
                 .get(0);
@@ -34,7 +34,7 @@ public class SystemCacheTests {
     @Test
     public void removeEntryOnRemovalAction() {
         //given
-        cache.insertOrUpdateEntry(new DroneCacheEntry(1f, 1f, "name", (short) 1));
+        cache.insertOrUpdateEntry(new DroneCacheEntry(1f, 1f, 1f, "name", (short) 1));
         //when
         cache.removeEntryByIdentification((short) 1);
         //then
@@ -45,7 +45,7 @@ public class SystemCacheTests {
     @Test
     public void removeEntryAfterTime() throws InterruptedException {
         //given
-        cache.insertOrUpdateEntry(new DroneCacheEntry(1f, 1f, "name", (short) 1));
+        cache.insertOrUpdateEntry(new DroneCacheEntry(1f, 1f, 1f, "name", (short) 1));
         //when
         Thread.sleep(4000);
         //then
@@ -56,13 +56,31 @@ public class SystemCacheTests {
     @Test
     public void updatingEntryResetsRemoveTimer() throws InterruptedException {
         //given
-        cache.insertOrUpdateEntry(new DroneCacheEntry(1f, 1f, "name", (short) 1));
+        cache.insertOrUpdateEntry(new DroneCacheEntry(1f, 1f, 1f, "name", (short) 1));
         //when
         Thread.sleep(2000);
-        cache.insertOrUpdateEntry(new DroneCacheEntry(1f, 1f, "name", (short) 1));
+        cache.insertOrUpdateEntry(new DroneCacheEntry(1f, 1f, 1f, "name", (short) 1));
         Thread.sleep(2000);
         //then
         Assertions.assertThat(cache.getLatestEntries())
                 .isNotEmpty();
+    }
+
+    @Test
+    public void gettingEntriesByAreaShouldReturnCorrectResults() {
+        //given
+        var entry1 = new DroneCacheEntry(15f, 15f, 1f, "name", (short) 2);
+        var entry2 = new DroneCacheEntry(20f, 20f, 1f, "name", (short) 3);
+        cache.insertOrUpdateEntry(new DroneCacheEntry(10f, 10f, 1f, "name", (short) 1));
+        cache.insertOrUpdateEntry(entry1);
+        cache.insertOrUpdateEntry(entry2);
+        cache.insertOrUpdateEntry(new DroneCacheEntry(25f, 25f, 1f, "name", (short) 4));
+        //when
+        var entries = cache.getLatestEntriesByArea(21, 21, 14, 14);
+        //then
+        Assertions.assertThat(entries.size())
+                .isEqualTo(2);
+        Assertions.assertThat(entries)
+                .containsExactly(entry1, entry2);
     }
 }

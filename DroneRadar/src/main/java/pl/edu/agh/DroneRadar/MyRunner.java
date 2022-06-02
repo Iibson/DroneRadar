@@ -41,7 +41,7 @@ public class MyRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         for(int i = 0; i < 10000; i++) {
-            systemCache.insertOrUpdateEntry(new DroneCacheEntry((float) i, (float) i, "name", (short) (i % 100)));
+            systemCache.insertOrUpdateEntry(new DroneCacheEntry((float) i, (float) i, (float) i, "name", (short) (i % 100)));
         }
 
         var entries = systemCache.getLatestEntries();

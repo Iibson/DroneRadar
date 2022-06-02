@@ -9,6 +9,7 @@ import pl.edu.agh.DroneRadar.systemCache.models.DroneCacheEntry;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 
 @Service
 @Scope("singleton")
@@ -23,10 +24,18 @@ public class CaffeineSystemCache implements SystemCache {
     }
 
     @Override
+    public List<DroneCacheEntry> getLatestEntriesByArea(float maxLat, float maxLong, float minLat, float minLong) {
+        return getCacheValuesAsStream()
+                .filter(entry -> entry.latitude() > minLat)
+                .filter(entry -> entry.latitude() < maxLat)
+                .filter(entry -> entry.longitude() > minLong)
+                .filter(entry -> entry.longitude() < maxLong)
+                .toList();
+    }
+
+    @Override
     public List<DroneCacheEntry> getLatestEntries() {
-        return cache.asMap()
-                .values()
-                .stream()
+        return getCacheValuesAsStream()
                 .toList();
     }
 
@@ -38,5 +47,11 @@ public class CaffeineSystemCache implements SystemCache {
     @Override
     public void removeEntryByIdentification(Short droneIdentification) {
         cache.invalidate(droneIdentification);
+    }
+
+    private Stream<DroneCacheEntry> getCacheValuesAsStream() {
+        return cache.asMap()
+                .values()
+                .stream();
     }
 }
