@@ -42,8 +42,9 @@ public class SystemCacheService {
                 .stream()
                 .map(drone -> {
                     var record = drone.getFlights().get(0).getRecords().get(drone.getFlights().get(0).getRecords().size() - 1);
+                    var angle = drone.getCurrentMovementAngle();
                     var id = drone.getIdentification();
-                    return new LatestRecordForDroneDto(record, id);
+                    return new LatestRecordForDroneDto(record, id, angle);
                 })
                 .toList();
     }

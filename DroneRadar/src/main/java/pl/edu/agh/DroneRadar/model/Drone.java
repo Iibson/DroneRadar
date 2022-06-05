@@ -31,4 +31,20 @@ public class Drone {
     @OneToMany(fetch = FetchType.EAGER)
     @Builder.Default
     List<Flight> flights = new ArrayList<>();
+
+    public int getCurrentMovementAngle() {
+        var latestFlightRecords = this.flights.get(0).getRecords();
+        if (latestFlightRecords.size() < 2) return 0;
+
+        var latestRecord = latestFlightRecords.get(latestFlightRecords.size() - 1);
+        var secondLatestRecord = latestFlightRecords.get(latestFlightRecords.size() - 2);
+        var latestRecordCoords = latestRecord.getFlightDataEntry().getCoordinate();
+        var secondLatestRecordCoords = secondLatestRecord.getFlightDataEntry().getCoordinate();
+
+        var movementVectorY = latestRecordCoords.getLatitude() - secondLatestRecordCoords.getLatitude();
+        var movementVectorX = latestRecordCoords.getLongitude() - secondLatestRecordCoords.getLongitude();
+        var tangens = ((double)(movementVectorY))/movementVectorX;
+        return (int) Math.toDegrees(Math.atan(tangens));
+    }
 }
+

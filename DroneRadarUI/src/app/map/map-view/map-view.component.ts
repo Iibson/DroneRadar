@@ -1,36 +1,30 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import * as L from 'leaflet';
+import { Subscription } from 'rxjs';
 import { MapService } from '../map.service';
-
+import { RotatedMarker } from 'leaflet-marker-rotation';
 @Component({
   selector: 'app-map-view',
   templateUrl: './map-view.component.html',
   styleUrls: ['./map-view.component.scss'],
 })
-export class MapViewComponent implements AfterViewInit, OnInit {
+export class MapViewComponent implements AfterViewInit, OnInit, OnDestroy {
   map!: L.Map;
   markerGroup!: L.LayerGroup<any>;
+  markersMap: Map<number, RotatedMarker> = new Map();
+  subs: Subscription[] = [];
+
   planeIcon = L.icon({
     iconUrl: 'assets/plane-icon.png',
     iconSize: [32, 32], // size of the icon
     iconAnchor: [16, 16], // point of the icon which will correspond to marker's location
-    popupAnchor: [0,-16], // point from which the popup should open relative to the iconAnchor
+    popupAnchor: [0, -16], // point from which the popup should open relative to the iconAnchor
   });
-  constructor(private _mapService: MapService) {
-  }
+
+  constructor(private _mapService: MapService) {}
 
   ngOnInit(): void {
-    this._mapService.observeMapData().subscribe(objects => {
-      console.log(objects);
-      if(this.markerGroup) {
-        this.map.removeLayer(this.markerGroup);
-      }
-      this.markerGroup = L.layerGroup().addTo(this.map);
-      objects.forEach(obj => {
-        const marker = L.marker([obj.lat, obj.lon], { icon: this.planeIcon }).bindPopup(obj.basicinfoString);
-        marker.addTo(this.markerGroup);
-      });
-    })
+    this.subs.push(this.observeMapData());
   }
 
   ngAfterViewInit(): void {
@@ -38,11 +32,15 @@ export class MapViewComponent implements AfterViewInit, OnInit {
     this.getUserLocation();
   }
 
+  ngOnDestroy(): void {
+    this.subs.forEach((subscription) => subscription.unsubscribe());
+  }
+
   initMap(): void {
     this.map = L.map('map', {
       center: [0, 0],
       zoom: 10,
-      worldCopyJump: true
+      worldCopyJump: true,
     });
 
     const tiles = L.tileLayer(
@@ -56,6 +54,7 @@ export class MapViewComponent implements AfterViewInit, OnInit {
     );
 
     tiles.addTo(this.map);
+    this.markerGroup = L.layerGroup().addTo(this.map);
   }
 
   getUserLocation(): void {
@@ -78,5 +77,35 @@ export class MapViewComponent implements AfterViewInit, OnInit {
     } else {
       console.log('Geolocation is not supported by this browser.');
     }
+  }
+
+  observeMapData(): Subscription {
+    return this._mapService.observeMapData().subscribe((objects) => {
+      objects.forEach((obj) => {
+        const existingMarker = this.markersMap.get(obj.objectId);
+
+        if (existingMarker) {
+          existingMarker.setLatLng({ lat: obj.lat, lng: obj.lon });
+          existingMarker.setRotationAngle(obj.angle);
+        } else {
+          this.markersMap.set(
+            obj.objectId,
+            new RotatedMarker([obj.lat, obj.lon], {
+              icon: this.planeIcon,
+              rotationAngle: obj.angle,
+              rotationOrigin: 'center',
+            })
+              .bindPopup(obj.basicinfoString)
+              .addTo(this.markerGroup)
+          );
+        }
+      });
+      this.markersMap.forEach((value, key) => {
+        if (objects.findIndex((x) => x.objectId === key) === -1) {
+          this.markerGroup.removeLayer(value);
+          this.markersMap.delete(key);
+        }
+      });
+    });
   }
 }

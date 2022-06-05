@@ -27,10 +27,11 @@ public class SocketCommunicationController {
     public void sendMapData() {
         var objects = cacheService.getLatestRecordsForDrones()
                 .stream()
-                .map(dto -> new MapObjectInfoDto((int) System.currentTimeMillis(),
+                .map(dto -> new MapObjectInfoDto(dto.droneIdentification(),
                         dto.record().getFlightDataEntry().getCoordinate().getLatitude(),
                         dto.record().getFlightDataEntry().getCoordinate().getLongitude(),
-                        dto.droneIdentification().toString()))
+                        dto.droneIdentification().toString(),
+                        dto.angle()))
                 .toArray();
         messageSender.convertAndSend("/client/map-data", objects);
     }
