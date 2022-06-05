@@ -19,9 +19,9 @@ public class Record {
     @ManyToOne
     private Sensor sensor;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private BasicRecordData basicRecordData;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private FlightDataEntry flightDataEntry;
 }
