@@ -43,8 +43,11 @@ public class Drone {
 
         var movementVectorY = latestRecordCoords.getLatitude() - secondLatestRecordCoords.getLatitude();
         var movementVectorX = latestRecordCoords.getLongitude() - secondLatestRecordCoords.getLongitude();
-        var tangens = ((double)(movementVectorY))/movementVectorX;
-        return (int) Math.toDegrees(Math.atan(tangens));
+        var movementVectorModule = Math.sqrt(Math.pow(movementVectorX, 2) + Math.pow(movementVectorY, 2));
+        var angle = (int)Math.toDegrees(Math.acos(movementVectorY / movementVectorModule));
+        if (movementVectorX < 0) {
+            return 60 - angle;
+        } else return angle;
     }
 }
 
