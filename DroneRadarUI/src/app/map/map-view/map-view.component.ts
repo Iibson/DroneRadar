@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import * as L from 'leaflet';
 import { Subscription } from 'rxjs';
 import { MapService } from '../map.service';
@@ -7,6 +7,7 @@ import { RotatedMarker } from 'leaflet-marker-rotation';
   selector: 'app-map-view',
   templateUrl: './map-view.component.html',
   styleUrls: ['./map-view.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class MapViewComponent implements AfterViewInit, OnInit, OnDestroy {
   map!: L.Map;
