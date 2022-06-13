@@ -1,10 +1,7 @@
 package pl.edu.agh.DroneRadar.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +12,7 @@ import java.util.Locale;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString
 public class Drone {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -28,7 +26,7 @@ public class Drone {
     private String sign;
     private String type;
     private float fuel;
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @Builder.Default
     List<Flight> flights = new ArrayList<>();
 

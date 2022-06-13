@@ -36,7 +36,7 @@ public class DroneFileTemplate {
     private String identificationLabel = "";
     @Builder.Default
     private String model = "";
-    @Builder.Default
+
     private String registrationNumber = "";
     @Builder.Default
     private String sign = "";

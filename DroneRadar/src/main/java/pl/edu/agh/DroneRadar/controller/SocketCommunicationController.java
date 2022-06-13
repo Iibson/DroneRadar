@@ -6,19 +6,13 @@ import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
-import pl.edu.agh.DroneRadar.cache.SystemCacheService;
 
-
-/**
- * Controller responsible for websocket communication while inside a game
- */
+import java.util.List;
 @EnableScheduling
 @Controller
 public class SocketCommunicationController {
     private static SimpMessageSendingOperations messageSender;
-    private final SystemCacheService cacheService;
-
-    public SocketCommunicationController(SimpMessageSendingOperations messageSender, SystemCacheService cacheService) {
+    public SocketCommunicationController(SimpMessageSendingOperations messageSender) {
         SocketCommunicationController.messageSender = messageSender;
         this.cacheService = cacheService;
     }

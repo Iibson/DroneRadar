@@ -1,9 +1,6 @@
 package pl.edu.agh.DroneRadar.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,4 +23,7 @@ public class BasicRecordData {
     private String server;
     private Timestamp timestamp;
     private RecordType recordType;
+
+    @OneToOne(mappedBy = "basicRecordData")
+    private Record record;
 }
