@@ -84,8 +84,8 @@ public class DroneFileTemplatesGenerator {
     //TODO improve this shit
     private Integer createNewHeading(Integer currentHeading) {
         var random =  new Random();
-        if(random.nextInt() % 10 < 5) return currentHeading;
-        var newValue = random.nextInt() % 15 + currentHeading;
+        if(random.nextInt() % 10 < 4) return currentHeading;
+        var newValue = random.nextInt() % 15 + 15 + currentHeading;
         if(newValue > 360) newValue = newValue % 360;
         else if(newValue < 0) newValue = 360 + newValue;
         return newValue;

@@ -84,16 +84,15 @@ export class MapViewComponent implements AfterViewInit, OnInit, OnDestroy {
     return this._mapService.observeMapData().subscribe((objects) => {
       objects.forEach((obj) => {
         const existingMarker = this.markersMap.get(obj.objectId);
-
         if (existingMarker) {
           existingMarker.setLatLng({ lat: obj.lat, lng: obj.lon });
-          existingMarker.setRotationAngle(obj.angle);
+          existingMarker.setRotationAngle(obj.heading);
         } else {
           this.markersMap.set(
             obj.objectId,
             new RotatedMarker([obj.lat, obj.lon], {
               icon: this.planeIcon,
-              rotationAngle: obj.angle,
+              rotationAngle: obj.heading,
               rotationOrigin: 'center',
             })
               .bindPopup(obj.basicinfoString)
