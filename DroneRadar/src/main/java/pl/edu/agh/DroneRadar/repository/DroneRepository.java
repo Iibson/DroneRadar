@@ -7,4 +7,6 @@ import pl.edu.agh.DroneRadar.model.Drone;
 @Repository
 
 public interface DroneRepository extends JpaRepository<Drone, Long> {
+    public Drone findByRegistrationNumber(String registrationNumber);
+    public boolean existsByRegistrationNumber(String registrationNumber);
 }

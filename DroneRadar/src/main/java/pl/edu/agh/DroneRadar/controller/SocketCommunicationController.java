@@ -6,31 +6,28 @@ import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
-import pl.edu.agh.DroneRadar.cache.SystemCacheService;
+import pl.edu.agh.DroneRadar.systemCache.CaffeineSystemCache;
 
-
-/**
- * Controller responsible for websocket communication while inside a game
- */
+import java.util.List;
 @EnableScheduling
 @Controller
 public class SocketCommunicationController {
     private static SimpMessageSendingOperations messageSender;
-    private final SystemCacheService cacheService;
-
-    public SocketCommunicationController(SimpMessageSendingOperations messageSender, SystemCacheService cacheService) {
+    private final CaffeineSystemCache cacheService;
+    public SocketCommunicationController(SimpMessageSendingOperations messageSender, CaffeineSystemCache cacheService) {
         SocketCommunicationController.messageSender = messageSender;
         this.cacheService = cacheService;
     }
 
     @Scheduled(fixedDelay = 1000)
     public void sendMapData() {
-        var objects = cacheService.getLatestRecordsForDrones()
+        var objects = cacheService.getLatestEntries()
                 .stream()
-                .map(dto -> new MapObjectInfoDto((int) System.currentTimeMillis(),
-                        dto.record().getFlightDataEntry().getCoordinate().getLatitude(),
-                        dto.record().getFlightDataEntry().getCoordinate().getLongitude(),
-                        dto.droneIdentification().toString()))
+                .map(dto -> new MapObjectInfoDto(dto.registrationNumber(),
+                        dto.latitude(),
+                        dto.longitude(),
+                        dto.registrationNumber(),
+                        dto.heading()))
                 .toArray();
         messageSender.convertAndSend("/client/map-data", objects);
     }

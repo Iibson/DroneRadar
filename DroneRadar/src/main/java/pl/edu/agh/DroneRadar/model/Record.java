@@ -13,15 +13,15 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Record {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
     private Sensor sensor;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private BasicRecordData basicRecordData;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private FlightDataEntry flightDataEntry;
 }

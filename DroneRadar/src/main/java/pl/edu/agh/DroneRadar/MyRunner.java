@@ -9,6 +9,7 @@ import pl.edu.agh.DroneRadar.component.Direction;
 import pl.edu.agh.DroneRadar.component.RecordType;
 import pl.edu.agh.DroneRadar.model.*;
 import pl.edu.agh.DroneRadar.model.Record;
+import pl.edu.agh.DroneRadar.parser.DirectoryWatcher;
 import pl.edu.agh.DroneRadar.parser.model.CSVFlightData;
 import pl.edu.agh.DroneRadar.service.*;
 
@@ -32,6 +33,7 @@ public class MyRunner implements CommandLineRunner {
     private final FlightService flightService;
     private final RecordService recordService;
     private final SensorService sensorService;
+    private final DirectoryWatcher directoryWatcher;
 
     public MyRunner(
             BasicRecordDataService basicRecordDataService,
@@ -39,7 +41,8 @@ public class MyRunner implements CommandLineRunner {
             FlightDataEntryService flightDataEntryService,
             FlightService flightService,
             RecordService recordService,
-            SensorService sensorService
+            SensorService sensorService,
+            DirectoryWatcher directoryWatcher
     ) {
         this.basicRecordDataService = basicRecordDataService;
         this.droneService = droneService;
@@ -47,6 +50,7 @@ public class MyRunner implements CommandLineRunner {
         this.flightService = flightService;
         this.recordService = recordService;
         this.sensorService = sensorService;
+        this.directoryWatcher = directoryWatcher;
     }
 
     @Override

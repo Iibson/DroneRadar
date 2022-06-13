@@ -1,6 +1,5 @@
 package pl.edu.agh.DroneRadar.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.DroneRadar.model.Drone;
 import pl.edu.agh.DroneRadar.repository.DroneRepository;
@@ -19,5 +18,17 @@ public class DroneService {
 
     public void removeDroneById(Long droneId){
         this.droneRepository.deleteById(droneId);
+    }
+
+    public boolean checkIfDroneExistsById(Long droneId) {
+        return this.droneRepository.existsById(droneId);
+    }
+
+    public Drone findDroneByRegistrationNumber(String registrationNumber) {
+       return droneRepository.findByRegistrationNumber(registrationNumber);
+    }
+
+    public boolean checkIfDroneExistsByRegistrationNumber(String registrationNumber) {
+        return droneRepository.existsByRegistrationNumber(registrationNumber);
     }
 }

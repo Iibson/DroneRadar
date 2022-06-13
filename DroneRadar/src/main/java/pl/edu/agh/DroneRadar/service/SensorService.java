@@ -21,4 +21,8 @@ public class SensorService {
     public void removeSensor(Long sensorId){
         this.sensorRepository.deleteById(sensorId);
     }
+
+    public boolean checkIfSensorExistsById(Long sensorId) {
+        return this.sensorRepository.existsById(sensorId);
+    }
 }

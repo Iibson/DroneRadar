@@ -28,6 +28,10 @@ public class FlightService {
         flightRepository.save(flight);
     }
 
+    public boolean checkIfFlightExistsById(Long flightId) {
+        return this.flightRepository.existsById(flightId);
+    }
+
     public void removeFlightById(Long flightId){
         this.flightRepository.deleteById(flightId);
     }

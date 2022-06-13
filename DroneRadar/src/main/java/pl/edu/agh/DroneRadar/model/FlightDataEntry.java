@@ -22,4 +22,7 @@ public class FlightDataEntry {
     private float heading;
     private float speed;
     private float altitude;
+
+    @OneToOne(mappedBy = "flightDataEntry")
+    private Record record;
 }
