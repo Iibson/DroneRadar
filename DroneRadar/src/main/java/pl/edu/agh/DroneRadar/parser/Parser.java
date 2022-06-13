@@ -115,7 +115,7 @@ public class Parser {
                 .build();
 
         var basicRecordData = BasicRecordData.builder()
-                .timestamp(Timestamp.valueOf(flightData.getTime()))
+//                .timestamp(Timestamp.valueOf(flightData.getTime()))
                 .build();
 
         var record = Record.builder()

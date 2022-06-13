@@ -30,6 +30,7 @@ public class Drone {
     @Builder.Default
     List<Flight> flights = new ArrayList<>();
 
+    //maybe used in future
     public int getCurrentMovementAngle() {
         var latestFlightRecords = this.flights.get(0).getRecords();
         if (latestFlightRecords.size() < 2) return 0;

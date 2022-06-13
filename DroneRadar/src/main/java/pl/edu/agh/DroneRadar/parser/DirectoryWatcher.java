@@ -6,7 +6,7 @@ import java.nio.file.*;
 
 @Service
 public class DirectoryWatcher {
-    private final String directoryPath = "C:\\Users\\micha\\OneDrive\\Pulpit\\Studia projekty\\inzynierka\\DroneRadar\\flightData";
+    private final String directoryPath = "C:\\Users\\MichalSkorek\\Documents\\droneradar\\DroneRadar\\DroneRadar\\src\\flightData";
     private final Parser parser;
 
     public DirectoryWatcher(Parser parser) {

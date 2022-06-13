@@ -19,7 +19,7 @@ public class CaffeineSystemCache implements SystemCache {
     public CaffeineSystemCache() {
         this.cache = Caffeine.newBuilder()
                 .maximumSize(10_000)
-                .expireAfterWrite(3, TimeUnit.SECONDS)
+                .expireAfterWrite(10, TimeUnit.SECONDS)
                 .build();
     }
 
