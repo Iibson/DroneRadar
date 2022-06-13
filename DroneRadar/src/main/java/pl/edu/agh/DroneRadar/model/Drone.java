@@ -15,7 +15,7 @@ import java.util.Locale;
 @ToString
 public class Drone {
     @Id
-    //@GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private Locale country;
     private Locale operator;

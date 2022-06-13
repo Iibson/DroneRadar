@@ -60,6 +60,7 @@ public class DroneFileTemplatesGenerator {
                 .identification(id)
                 .flag(FileFlag.BEG)
                 .latitude(position.getValue0())
+                .registrationNumber(id.toString())
                 .longitude(position.getValue1())
                 .heading(initHeading())
                 .speed(initSpeed())

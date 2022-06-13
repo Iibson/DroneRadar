@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Record {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne

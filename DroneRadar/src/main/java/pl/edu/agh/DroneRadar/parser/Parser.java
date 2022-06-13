@@ -3,19 +3,21 @@ package pl.edu.agh.DroneRadar.parser;
 import com.opencsv.bean.CsvToBeanBuilder;
 import org.apache.commons.lang3.LocaleUtils;
 import org.springframework.stereotype.Service;
-import pl.edu.agh.DroneRadar.cache.SystemCacheService;
 import pl.edu.agh.DroneRadar.component.Coordinate;
 import pl.edu.agh.DroneRadar.model.*;
 import pl.edu.agh.DroneRadar.model.Record;
 import pl.edu.agh.DroneRadar.parser.model.CSVFlightData;
 import pl.edu.agh.DroneRadar.service.*;
+import pl.edu.agh.DroneRadar.systemCache.interfaces.SystemCache;
+import pl.edu.agh.DroneRadar.systemCache.models.DroneCacheEntry;
 
 import java.io.FileReader;
+import java.sql.Timestamp;
 
 @Service
 public class Parser {
 
-    private final SystemCacheService systemCacheService;
+    private final SystemCache systemCache;
     private final DroneService droneService;
     private final BasicRecordDataService basicRecordDataService;
     private final FlightDataEntryService flightDataEntryService;
@@ -23,14 +25,14 @@ public class Parser {
     private final RecordService recordService;
     private final SensorService sensorService;
 
-    public Parser(SystemCacheService systemCacheService,
+    public Parser(SystemCache systemCache,
                   DroneService droneService,
                   BasicRecordDataService basicRecordDataService,
                   FlightDataEntryService flightDataEntryService,
                   FlightService flightService,
                   RecordService recordService,
                   SensorService sensorService) {
-        this.systemCacheService = systemCacheService;
+        this.systemCache = systemCache;
         this.droneService = droneService;
         this.basicRecordDataService = basicRecordDataService;
         this.flightDataEntryService = flightDataEntryService;
@@ -52,15 +54,23 @@ public class Parser {
     }
 
     public void updateDroneMap(CSVFlightData flightData) {
-        var droneIdentification = Short.parseShort(flightData.getDroneIdentification());
+        var registrationNumber = flightData.getRegistrationNumber();
         var flightId = Long.parseLong(flightData.getId());
-        var drone = this.systemCacheService.getDroneMap().getOrDefault(droneIdentification, null);
+//        var droneCacheEntry = this.systemCache.getLatestEntries()
+//                .stream()
+//                .filter(x -> x.registrationNumber() == registrationNumber)
+//                .findAny()
+//                .orElse(null);
+
+        Drone drone = droneService.findDroneByRegistrationNumber(flightData.getRegistrationNumber());
+
+
+
         var isNewDrone = false;
         if(drone == null) {
             drone = Drone.builder()
-                    .id((long) droneIdentification)
                     .country(LocaleUtils.toLocale(flightData.getCountry()))
-                    .identification(droneIdentification)
+                    .identification(Short.parseShort(flightData.getDroneIdentification()))
                     .model(flightData.getModel())
                     .operator(LocaleUtils.toLocale(flightData.getOperator()))
                     .identificationLabel(flightData.getIdentificationLabel())
@@ -104,28 +114,33 @@ public class Parser {
                 .speed(Float.parseFloat(flightData.getSpeed()))
                 .build();
 
+        var basicRecordData = BasicRecordData.builder()
+                .timestamp(Timestamp.valueOf(flightData.getTime()))
+                .build();
+
         var record = Record.builder()
-                .basicRecordData(new BasicRecordData())
+                .basicRecordData(basicRecordData)
                 .flightDataEntry(flightDataEntry)
                 .sensor(sensor)
                 .build();
 
-        flight.getRecords().add(record);
         System.out.println("file parsed: " + flight.getId());
 
-        if(isNewDrone) this.systemCacheService.getDroneMap().put(droneIdentification, drone);
-        else this.systemCacheService.getDroneMap().replace(droneIdentification, drone);
+        this.systemCache.insertOrUpdateEntry(new DroneCacheEntry(Float.parseFloat(flightData.getLatitude()),
+                Float.parseFloat(flightData.getLongitude()),
+                Float.parseFloat(flightData.getHeading()),
+                flightData.getRegistrationNumber()));
+
         //if(!sensorService.checkIfSensorExistsById(sensor.getId())){
             sensorService.addSensor(sensor);
        // }
-        if(!droneService.checkIfDroneExistsById((long) droneIdentification)){
+        if(!droneService.checkIfDroneExistsByRegistrationNumber(drone.getRegistrationNumber())){
             droneService.addDrone(drone);
         }
         if(!flightService.checkIfFlightExistsById(flightId)){
             flightService.addFlight(flight);
         }
 
-       // flightDataEntryService.addFlightDataEntry(flightDataEntry);
         flightService.addRecordToFlight(flight.getId(), record);
     }
 }

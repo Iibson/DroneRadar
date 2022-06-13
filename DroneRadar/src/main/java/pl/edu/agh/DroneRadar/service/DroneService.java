@@ -23,4 +23,12 @@ public class DroneService {
     public boolean checkIfDroneExistsById(Long droneId) {
         return this.droneRepository.existsById(droneId);
     }
+
+    public Drone findDroneByRegistrationNumber(String registrationNumber) {
+       return droneRepository.findByRegistrationNumber(registrationNumber);
+    }
+
+    public boolean checkIfDroneExistsByRegistrationNumber(String registrationNumber) {
+        return droneRepository.existsByRegistrationNumber(registrationNumber);
+    }
 }
