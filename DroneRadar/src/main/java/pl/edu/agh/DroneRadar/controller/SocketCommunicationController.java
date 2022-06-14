@@ -7,21 +7,22 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import pl.edu.agh.DroneRadar.systemCache.CaffeineSystemCache;
+import pl.edu.agh.DroneRadar.systemCache.interfaces.SystemCache;
 
 import java.util.List;
 @EnableScheduling
 @Controller
 public class SocketCommunicationController {
     private static SimpMessageSendingOperations messageSender;
-    private final CaffeineSystemCache cacheService;
-    public SocketCommunicationController(SimpMessageSendingOperations messageSender, CaffeineSystemCache cacheService) {
+    private final SystemCache systemCache;
+    public SocketCommunicationController(SimpMessageSendingOperations messageSender, SystemCache systemCache) {
         SocketCommunicationController.messageSender = messageSender;
-        this.cacheService = cacheService;
+        this.systemCache = systemCache;
     }
 
     @Scheduled(fixedDelay = 1000)
     public void sendMapData() {
-        var objects = cacheService.getLatestEntries()
+        var objects = systemCache.getLatestEntries()
                 .stream()
                 .map(dto -> new MapObjectInfoDto(dto.registrationNumber(),
                         dto.latitude(),

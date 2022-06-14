@@ -1,17 +1,23 @@
 package pl.edu.agh.DroneRadar.parser;
 
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.*;
+import java.security.InvalidParameterException;
 
 @Service
+@PropertySource("classpath:path.properties")
 public class DirectoryWatcher {
-    private final String directoryPath = "C:\\Users\\MichalSkorek\\Documents\\droneradar\\DroneRadar\\DroneRadar\\src\\flightData";
+    private final String directoryPath;
     private final Parser parser;
 
-    public DirectoryWatcher(Parser parser) {
+    public DirectoryWatcher(Parser parser, Environment environment) {
         this.parser = parser;
-
+        var prop = environment.getProperty("path.path");
+        if (prop == null) throw new InvalidParameterException("Missing path.path variable in path.properties");
+        this.directoryPath = prop;
         new Thread(() -> {
             try {
                 watchDirectory();
