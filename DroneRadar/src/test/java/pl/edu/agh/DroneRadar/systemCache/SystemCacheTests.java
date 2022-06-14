@@ -5,6 +5,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.mock.env.MockEnvironment;
 import pl.edu.agh.DroneRadar.systemCache.interfaces.SystemCache;
 import pl.edu.agh.DroneRadar.systemCache.models.DroneCacheEntry;
 
@@ -12,10 +14,14 @@ import pl.edu.agh.DroneRadar.systemCache.models.DroneCacheEntry;
 public class SystemCacheTests {
 
     SystemCache cache;
+    private final int entryLiveSpan = 10000;
 
     @Before
     public void setCache() {
-        cache = new CaffeineSystemCache();
+        MockEnvironment environment = new MockEnvironment();
+        environment.setProperty("entryLiveSpan", "10");
+        environment.setProperty("cacheMaxSize", "100");
+        cache = new CaffeineSystemCache(environment);
     }
 
     @Test
@@ -47,7 +53,7 @@ public class SystemCacheTests {
         //given
         cache.insertOrUpdateEntry(new DroneCacheEntry(1f, 1f, 1f,  "(short) 1"));
         //when
-        Thread.sleep(4000);
+        Thread.sleep(entryLiveSpan + 1000);
         //then
         Assertions.assertThat(cache.getLatestEntries())
                 .isEmpty();
@@ -58,9 +64,9 @@ public class SystemCacheTests {
         //given
         cache.insertOrUpdateEntry(new DroneCacheEntry(1f, 1f, 1f,  "(short) 1"));
         //when
-        Thread.sleep(2000);
+        Thread.sleep(entryLiveSpan - 1);
         cache.insertOrUpdateEntry(new DroneCacheEntry(1f, 1f, 1f,  "(short) 1"));
-        Thread.sleep(2000);
+        Thread.sleep(2);
         //then
         Assertions.assertThat(cache.getLatestEntries())
                 .isNotEmpty();
