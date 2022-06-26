@@ -22,6 +22,8 @@ public class Main {
             filePath = args[0];
         }
 
+        System.out.println(filePath);
+
         var fileCreator = FileCreatorFactory.getFileCreator(config.getCreatedFileTypes(), filePath);
         var timer = new Timer();
 
