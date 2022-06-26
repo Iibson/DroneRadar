@@ -12,11 +12,17 @@ import java.util.TimerTask;
 
 public class Main {
     public static void main(String[] args) throws IOException, NoConfigFileException, InterruptedException, WrongFileCreatorType {
+
         var config = Configuration.initConfiguration("config.json");
         var droneFileGenerator = new DroneFileTemplatesGenerator(config);
         FileUtils.cleanDirectory(new File(config.getFilePath()));
 
-        var fileCreator = FileCreatorFactory.getFileCreator(config.getCreatedFileTypes(), config.getFilePath());
+        var filePath = config.getFilePath();
+        if(args.length > 0){
+            filePath = args[0];
+        }
+
+        var fileCreator = FileCreatorFactory.getFileCreator(config.getCreatedFileTypes(), filePath);
         var timer = new Timer();
 
         timer.schedule(new TimerTask() {
