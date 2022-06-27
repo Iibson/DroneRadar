@@ -2,7 +2,7 @@
 
 ## Running the application
 1. Create directory for storing generated files
-2. From the "target" folder type in turn:
+2. From the https://github.com/Iibson/DroneRadar/tree/develop/target folder type in turn:
   - docker build -t frontend DroneRadarUI
   - docker run frontend
   - java -jar backend.jar --path.path=CREATED_DIRECOTRY_PATH
