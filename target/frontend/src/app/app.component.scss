@@ -1,0 +1,25 @@
+.header-footer-box{
+  height:50px;
+  position:absolute;
+  background-color: rgba(0, 0, 0, 0.616);
+  z-index: 9999;
+  right:0;
+  left:0;
+
+}
+.header{
+  @extend .header-footer-box;
+  top:0;
+
+  &-logo{
+    margin-top:5px;
+    height:40px;
+    width:auto;
+  }
+}
+
+.footer{
+  @extend .header-footer-box;
+  height:30px;
+  bottom: 0;
+}

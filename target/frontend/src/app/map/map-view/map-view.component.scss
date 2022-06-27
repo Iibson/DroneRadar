@@ -1,0 +1,16 @@
+.map-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0px;
+}
+.leaflet-control-zoom { 
+  position: absolute;
+  left: 0px !important;
+  top: 50px !important;
+ }
+#map {
+  height: 100%;
+}
