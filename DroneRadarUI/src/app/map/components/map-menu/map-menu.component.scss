@@ -1,0 +1,31 @@
+@import '../../../../styles.scss';
+@import '~primeicons/primeicons.css';
+.menu-container {
+    background-color: $primary-app-color;
+    padding: 5px 30px;
+    border-radius: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: max-content;
+    height: max-content;
+}
+
+.menu-button-container {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    color: white;
+    background-color: $primary-app-color;
+    border-color: $primary-app-color;
+    box-shadow: none;
+    text-align: center;
+    margin: 0 7px;
+    min-width: 82px;
+    cursor: pointer;
+    svg-icon {
+        display: flex;
+        justify-content: center;
+    }
+}

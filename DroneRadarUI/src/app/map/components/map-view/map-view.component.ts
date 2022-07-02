@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import * as L from 'leaflet';
 import { Subscription } from 'rxjs';
-import { MapService } from '../map.service';
+import { MapService } from '../../services/map/map.service';
 import { RotatedMarker } from 'leaflet-marker-rotation';
 @Component({
   selector: 'app-map-view',
@@ -25,7 +25,7 @@ export class MapViewComponent implements AfterViewInit, OnInit, OnDestroy {
   constructor(private _mapService: MapService) {}
 
   ngOnInit(): void {
-    this.subs.push(this.observeMapData());
+    this.subs.push(this.observeMapData(), this.observeDroneDisplay());
   }
 
   ngAfterViewInit(): void {
@@ -39,9 +39,8 @@ export class MapViewComponent implements AfterViewInit, OnInit, OnDestroy {
 
   initMap(): void {
     this.map = L.map('map', {
-      center: [0, 0],
+      center: [50, 20],
       zoom: 10,
-      worldCopyJump: true,
     });
 
     const tiles = L.tileLayer(
@@ -79,6 +78,10 @@ export class MapViewComponent implements AfterViewInit, OnInit, OnDestroy {
       console.log('Geolocation is not supported by this browser.');
     }
   }
+
+  observeDroneDisplay = (): Subscription => this._mapService
+    .getDisplayDronesObservable()
+    .subscribe(bool => this.markersMap.forEach((val, _) => val.setOpacity(100 * Number(bool))));
 
   observeMapData(): Subscription {
     return this._mapService.observeMapData().subscribe((objects) => {

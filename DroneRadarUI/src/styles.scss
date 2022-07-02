@@ -1,1 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+
+@font-face {
+    font-family: 'Ubuntu Tilting';
+    src: url(assets/fonts/UbuntuTitling-Bold.ttf);
+}
+
+$primary-app-color: #2172ED;
+$secondary-app-color: #FFFFFF;
+$app-font-family: 'Ubuntu Tilting';
+html * {
+    font-family: $app-font-family;
+}

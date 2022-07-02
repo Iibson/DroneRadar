@@ -1,0 +1,20 @@
+<div class="menu-container">
+    <ng-container>
+        <div *ngIf="hideDronesButtonPushed; else showHideButton">
+            <div class="menu-button-container" (click)="changeDisplayDrones()">
+                <svg-icon src="assets/drone-side-white-icon.svg" [svgStyle]="svgStyle"></svg-icon>
+                Hide Drones
+            </div>
+        </div>
+        <ng-template #showHideButton>
+            <div class="menu-button-container" (click)="changeDisplayDrones()">
+                <svg-icon src="assets/drone-side-white-icon.svg" [svgStyle]="svgStyle"></svg-icon>
+                Show Drones
+            </div>
+        </ng-template>
+    </ng-container>
+    <div class="menu-button-container" (click)="clearPaths()">
+        <svg-icon src="assets/bin-white-icon.svg" [svgStyle]="svgStyle"></svg-icon>
+        Clear Paths
+    </div>
+</div>
