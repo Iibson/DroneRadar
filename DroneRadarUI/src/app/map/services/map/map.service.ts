@@ -13,7 +13,6 @@ export class MapService {
   private displayDronesSbj = new BehaviorSubject<boolean>(true);
 
   constructor() {
-    console.log('init service')
     this.stompClient = new RxStomp();
     this.stompClient.configure(this.getStompConfig());
     this.stompClient.activate();
