@@ -1,0 +1,39 @@
+@import '../../../../styles.scss';
+.menu-container {
+    background-color: $primary-app-color;
+    border-radius: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: max-content;
+    height: max-content;
+    .menu-button-container {
+        font-style: normal;
+        font-weight: 400;
+        font-size: 13px;
+        color: white;
+        background-color: $primary-app-color;
+        border-color: $primary-app-color;
+        box-shadow: none;
+        text-align: center;
+        min-width: 100px;
+        cursor: pointer;
+        transition: background-color 1s;
+        svg-icon {
+            display: flex;
+            justify-content: center;
+        }
+        &:hover {
+            background-color: $primary-hover-app-color;
+        }
+        &.menu-button-container:first-child {
+            border-radius: 40px 0 0 40px;
+            padding: 5px 0 5px 20px;
+        }
+        &.menu-button-container:not(:first-child) {
+            border-radius: 0 40px 40px 0;
+            padding: 5px 20px 5px 0;
+        }
+    }
+}
