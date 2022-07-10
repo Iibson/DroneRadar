@@ -8,6 +8,8 @@ import { IMapObjectInfoDto } from '../../../../shared/model/map-object-info-dto.
   providedIn: 'root',
 })
 export class MapService {
+  latestMapData!: IMapObjectInfoDto[];
+  private _currentMapSnapshot!: IMapObjectInfoDto[];
   private webSocketEndpoint = 'ws://localhost:8080';
   private stompClient: RxStomp;
   private displayDronesSbj = new BehaviorSubject<boolean>(true);
@@ -17,10 +19,16 @@ export class MapService {
     this.stompClient.configure(this.getStompConfig());
     this.stompClient.activate();
   }
+  get currentMapSnapshot(): IMapObjectInfoDto[] {
+    if (!this._currentMapSnapshot) this.refreshMapSnapshot();
 
-  getDisplayDronesObservable = (): Observable<boolean> => this.displayDronesSbj.asObservable();
+    return this._currentMapSnapshot;
+  }
+  getDisplayDronesObservable = (): Observable<boolean> =>
+    this.displayDronesSbj.asObservable();
 
-  changeDisplayDrones = (value: boolean): void => this.displayDronesSbj.next(value);
+  changeDisplayDrones = (value: boolean): void =>
+    this.displayDronesSbj.next(value);
 
   getStompConfig(): RxStompConfig {
     return {
@@ -34,11 +42,17 @@ export class MapService {
     };
   }
 
-  observeMapData(): Observable<IMapObjectInfoDto[]>{
+  observeMapData(): Observable<IMapObjectInfoDto[]> {
     return this.stompClient.watch('/client/map-data').pipe(
-        map((rawMessage: Message) => {
-            return JSON.parse(rawMessage.body);
-        })
+      map((rawMessage: Message) => {
+        return JSON.parse(rawMessage.body);
+      })
     );
-}
+  }
+
+  refreshMapSnapshot(): void {
+    this._currentMapSnapshot = JSON.parse(
+      JSON.stringify(this.latestMapData ?? null)
+    );
+  }
 }

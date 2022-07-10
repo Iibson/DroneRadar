@@ -1,13 +1,20 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
 import * as L from 'leaflet';
 import { Subscription } from 'rxjs';
 import { MapService } from '../../services/map/map.service';
 import { RotatedMarker } from 'leaflet-marker-rotation';
+import { SidebarsService } from '../../services/sidebars/sidebars.service';
 @Component({
   selector: 'app-map-view',
   templateUrl: './map-view.component.html',
   styleUrls: ['./map-view.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class MapViewComponent implements AfterViewInit, OnInit, OnDestroy {
   map!: L.Map;
@@ -22,7 +29,10 @@ export class MapViewComponent implements AfterViewInit, OnInit, OnDestroy {
     popupAnchor: [0, -16], // point from which the popup should open relative to the iconAnchor
   });
 
-  constructor(private _mapService: MapService) {}
+  constructor(
+    private _mapService: MapService,
+    private _sidebarsService: SidebarsService
+  ) {}
 
   ngOnInit(): void {
     this.subs.push(this.observeMapData(), this.observeDroneDisplay());
@@ -79,12 +89,16 @@ export class MapViewComponent implements AfterViewInit, OnInit, OnDestroy {
     }
   }
 
-  observeDroneDisplay = (): Subscription => this._mapService
-    .getDisplayDronesObservable()
-    .subscribe(bool => this.markersMap.forEach((val, _) => val.setOpacity(100 * Number(bool))));
+  observeDroneDisplay = (): Subscription =>
+    this._mapService
+      .getDisplayDronesObservable()
+      .subscribe((bool) =>
+        this.markersMap.forEach((val, _) => val.setOpacity(100 * Number(bool)))
+      );
 
   observeMapData(): Subscription {
     return this._mapService.observeMapData().subscribe((objects) => {
+      this._mapService.latestMapData = objects;
       objects.forEach((obj) => {
         const existingMarker = this.markersMap.get(obj.objectId);
         if (existingMarker) {
@@ -111,7 +125,8 @@ export class MapViewComponent implements AfterViewInit, OnInit, OnDestroy {
       });
     });
   }
-  showDroneList(): void{
-    console.log('showDroneList')
+
+  showDroneList(): void {
+    this._sidebarsService.droneListSidebarVisible = true;
   }
 }
