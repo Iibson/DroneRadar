@@ -1,8 +1,6 @@
 @import '../../../../styles.scss';
-@import '~primeicons/primeicons.css';
 .menu-container {
     background-color: $primary-app-color;
-    padding: 5px 30px;
     border-radius: 40px;
     display: flex;
     flex-direction: row;
@@ -10,22 +8,32 @@
     align-items: center;
     width: max-content;
     height: max-content;
-}
-
-.menu-button-container {
-    font-style: normal;
-    font-weight: 400;
-    font-size: 13px;
-    color: white;
-    background-color: $primary-app-color;
-    border-color: $primary-app-color;
-    box-shadow: none;
-    text-align: center;
-    margin: 0 7px;
-    min-width: 82px;
-    cursor: pointer;
-    svg-icon {
-        display: flex;
-        justify-content: center;
+    .menu-button-container {
+        font-style: normal;
+        font-weight: 400;
+        font-size: 13px;
+        color: white;
+        background-color: $primary-app-color;
+        border-color: $primary-app-color;
+        box-shadow: none;
+        text-align: center;
+        min-width: 100px;
+        cursor: pointer;
+        transition: background-color 1s;
+        svg-icon {
+            display: flex;
+            justify-content: center;
+        }
+        &:hover {
+            background-color: $primary-hover-app-color;
+        }
+        &.menu-button-container:first-child {
+            border-radius: 40px 0 0 40px;
+            padding: 5px 0 5px 20px;
+        }
+        &.menu-button-container:not(:first-child) {
+            border-radius: 0 40px 40px 0;
+            padding: 5px 20px 5px 0;
+        }
     }
 }
