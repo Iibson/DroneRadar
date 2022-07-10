@@ -111,4 +111,7 @@ export class MapViewComponent implements AfterViewInit, OnInit, OnDestroy {
       });
     });
   }
+  showDroneList(): void{
+    console.log('showDroneList')
+  }
 }
