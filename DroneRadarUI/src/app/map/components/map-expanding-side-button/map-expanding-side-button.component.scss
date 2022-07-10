@@ -1,0 +1,49 @@
+@import "../../../../styles.scss";
+
+.expanding-side-button {
+  position: absolute;
+  z-index: 10;
+  margin: 0;
+  overflow: hidden;
+  text-align: center;
+  border: 0px;
+  background-color: $primary-app-color;
+  width: 50px;
+  color: white;
+  height: 50px;
+  transition: width 0.7s;
+
+  &-left {
+    left: 0;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+  }
+  &-right {
+    right: 0;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+  }
+  &:hover{
+    width: 120px;
+    transition: width 0.7s;
+    cursor: pointer;
+    & .icon{
+      float: right;
+    }
+    & .button-text{
+      opacity: 1;
+      transition: opacity 0.5s;
+    }
+  }
+  
+  & .button-text{
+    opacity: 0;
+    padding-left:15px;
+    padding-right:15px;
+    transition: opacity 0.5s;
+    position: absolute;
+    width: 100%;
+    left: 0;
+  }
+}
+

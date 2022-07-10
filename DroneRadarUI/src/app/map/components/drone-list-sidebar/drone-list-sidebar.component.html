@@ -1,0 +1,37 @@
+<p-sidebar [(visible)]="visible"
+  [baseZIndex]="10"
+  [modal]="false"
+  [showCloseIcon]="false">
+  <div class="drone-list-sidebar">
+    <div class="drone-list-sidebar-refresh-button">
+      <i pButton
+        type="button"
+        icon="fa fa-refresh"
+        class="p-button-secondary p-button-text"
+        (click)="refresh()"></i>
+    </div>
+    <div class="drone-list-sidebar-close-button">
+      <i pButton
+        type="button"
+        icon="fa fa-arrow-left"
+        class="p-button-secondary p-button-text"
+        (click)="close()"></i>
+    </div>
+    <div class="drone-list-sidebar-content">
+      <p-scrollPanel [style]="scrollPanelStyle">
+        <div *ngFor="let drone of dronesList"
+          class="drone-list-sidebar-element">
+          <div class="drone-list-sidebar-element-column drone-list-sidebar-element-icon">
+            <svg-icon src="assets/drone-side-white-icon.svg"
+              [svgStyle]="iconSvgStyle"></svg-icon>
+          </div>
+          <div class="drone-list-sidebar-element-column">
+            <div class="drone-list-sidebar-element-informations">
+              ID:{{drone.objectId}}, lat:{{drone.lat | number : '1.2-2'}} lon:{{drone.lon | number : '1.2-2'}}
+            </div>
+          </div>
+        </div>
+      </p-scrollPanel>
+    </div>
+  </div>
+</p-sidebar>

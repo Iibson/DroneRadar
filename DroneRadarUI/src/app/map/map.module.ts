@@ -6,10 +6,29 @@ import { MapService } from './services/map/map.service';
 import { MapMenuComponent } from './components/map-menu/map-menu.component';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { HttpClientModule } from '@angular/common/http';
+import { MapExpandingSideButtonComponent } from './components/map-expanding-side-button/map-expanding-side-button.component';
+import { DroneListSidebarComponent } from './components/drone-list-sidebar/drone-list-sidebar.component';
+import { SidebarModule } from 'primeng/sidebar';
+import { SidebarsService } from './services/sidebars/sidebars.service';
+import { ButtonModule } from 'primeng/button';
+import { ScrollPanelModule } from 'primeng/scrollpanel';
 
 @NgModule({
-  declarations: [MapViewComponent, MapMenuComponent],
-  imports: [CommonModule, MapRoutingModule, HttpClientModule, AngularSvgIconModule.forRoot()],
-  providers: [MapService]
+  declarations: [
+    MapViewComponent,
+    MapMenuComponent,
+    MapExpandingSideButtonComponent,
+    DroneListSidebarComponent,
+  ],
+  imports: [
+    CommonModule,
+    MapRoutingModule,
+    HttpClientModule,
+    AngularSvgIconModule.forRoot(),
+    SidebarModule,
+    ButtonModule,
+    ScrollPanelModule,
+  ],
+  providers: [MapService, SidebarsService],
 })
 export class MapModule {}

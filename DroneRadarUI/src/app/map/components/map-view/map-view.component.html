@@ -1,4 +1,9 @@
 <div class="map-container">
-    <div id="map"></div>
+  <div id="map"></div>
 </div>
+<app-map-expanding-side-button buttonText="Drone list"
+  [side]="'left'"
+  [topPosition]="'200px'"
+  (onClick)="showDroneList()"></app-map-expanding-side-button>
 <app-map-menu></app-map-menu>
+<app-drone-list-sidebar></app-drone-list-sidebar>
