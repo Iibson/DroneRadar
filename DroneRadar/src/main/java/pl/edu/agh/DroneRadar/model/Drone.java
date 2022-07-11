@@ -15,14 +15,13 @@ import java.util.Locale;
 @ToString
 public class Drone {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private String registrationNumber;
     private Locale country;
     private Locale operator;
     private short identification;
     private String identificationLabel;
     private String model;
-    private String registrationNumber;
     private String sign;
     private String type;
     private float fuel;

@@ -4,6 +4,7 @@ import com.opencsv.bean.CsvToBeanBuilder;
 import org.apache.commons.lang3.LocaleUtils;
 import org.springframework.stereotype.Service;
 import pl.edu.agh.DroneRadar.component.Coordinate;
+import pl.edu.agh.DroneRadar.component.RecordType;
 import pl.edu.agh.DroneRadar.model.*;
 import pl.edu.agh.DroneRadar.model.Record;
 import pl.edu.agh.DroneRadar.parser.model.CSVFlightData;
@@ -55,7 +56,7 @@ public class Parser {
 
     public void updateDroneMap(CSVFlightData flightData) {
         var registrationNumber = flightData.getRegistrationNumber();
-        var flightId = Long.parseLong(flightData.getId());
+        //var flightId = Long.parseLong(flightData.getId());
 //        var droneCacheEntry = this.systemCache.getLatestEntries()
 //                .stream()
 //                .filter(x -> x.registrationNumber() == registrationNumber)
@@ -66,7 +67,6 @@ public class Parser {
 
 
 
-        var isNewDrone = false;
         if(drone == null) {
             drone = Drone.builder()
                     .country(LocaleUtils.toLocale(flightData.getCountry()))
@@ -79,9 +79,19 @@ public class Parser {
                     .type(flightData.getType())
                     .fuel(Float.parseFloat(flightData.getFuel()))
                     .build();
-            isNewDrone = true;
         }
-        var flight = drone.getFlights()
+        //TODO add finding current flight if FLAG = UPD
+        var flight = this.flightService.findLastFlightForDrone(drone);
+//flight.getRecords().stream().filter(o->o.getBasicRecordData().getRecordType() == RecordType.DROP).findAny().orElse(null) == null
+        if (flight == null || RecordType.valueOf(flightData.getFlag()) == RecordType.BEG) {
+            flight = Flight.builder()
+                    .drone(drone)
+                    .build();
+            drone.getFlights().add(flight);
+
+        }
+
+/*        var flight = drone.getFlights()
                 .stream()
                 .filter(x -> x.getId() == flightId)
                 .findAny()
@@ -94,7 +104,7 @@ public class Parser {
             drone.getFlights()
                     .add(flight);
 
-        }
+        }*/
 
         var sensor = Sensor.builder()
                 .signal(flightData.getSignal())
@@ -115,6 +125,7 @@ public class Parser {
                 .build();
 
         var basicRecordData = BasicRecordData.builder()
+                .recordType(RecordType.valueOf(flightData.getFlag()))
 //                .timestamp(Timestamp.valueOf(flightData.getTime()))
                 .build();
 
@@ -124,7 +135,7 @@ public class Parser {
                 .sensor(sensor)
                 .build();
 
-        System.out.println("file parsed: " + flight.getId());
+        System.out.println("file parsed");
 
         this.systemCache.insertOrUpdateEntry(new DroneCacheEntry(Float.parseFloat(flightData.getLatitude()),
                 Float.parseFloat(flightData.getLongitude()),
@@ -132,14 +143,17 @@ public class Parser {
                 flightData.getRegistrationNumber()));
 
         //if(!sensorService.checkIfSensorExistsById(sensor.getId())){
-            sensorService.addSensor(sensor);
-       // }
+        sensorService.addSensor(sensor);
+        // }
         if(!droneService.checkIfDroneExistsByRegistrationNumber(drone.getRegistrationNumber())){
             droneService.addDrone(drone);
         }
-        if(!flightService.checkIfFlightExistsById(flightId)){
-            flightService.addFlight(flight);
+        if(RecordType.valueOf(flightData.getFlag()) == RecordType.BEG){
+            flight = flightService.addFlight(flight);
         }
+     /*   if(!flightService.checkIfFlightExistsById(flightId)){
+            flightService.addFlight(flight);
+        }*/
 
         flightService.addRecordToFlight(flight.getId(), record);
     }

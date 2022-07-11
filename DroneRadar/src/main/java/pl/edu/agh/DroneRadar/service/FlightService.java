@@ -2,6 +2,7 @@ package pl.edu.agh.DroneRadar.service;
 
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import pl.edu.agh.DroneRadar.model.Drone;
 import pl.edu.agh.DroneRadar.model.Flight;
 import pl.edu.agh.DroneRadar.model.Record;
 import pl.edu.agh.DroneRadar.repository.FlightRepository;
@@ -34,5 +35,9 @@ public class FlightService {
 
     public void removeFlightById(Long flightId){
         this.flightRepository.deleteById(flightId);
+    }
+
+    public Flight findLastFlightForDrone(Drone drone) {
+        return this.flightRepository.findTopByDrone(drone);
     }
 }
