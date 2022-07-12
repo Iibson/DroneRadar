@@ -37,7 +37,6 @@
     }
     & .button-text{
       opacity: 1;
-      transition: opacity 0.5s;
     }
   }
   
@@ -48,6 +47,8 @@
     transition: opacity 0.5s;
     position: absolute;
     width: 100%;
+    overflow:hidden;
+    white-space: nowrap;
     left: 0;
   }
 }
