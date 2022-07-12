@@ -1,10 +1,7 @@
 package pl.edu.agh.DroneRadar.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import pl.edu.agh.DroneRadar.component.RecordType;
 
 import java.sql.Timestamp;
@@ -24,6 +21,7 @@ public class BasicRecordData {
     private Timestamp timestamp;
     private RecordType recordType;
 
+    @ToString.Exclude
     @OneToOne(mappedBy = "basicRecordData")
     private Record record;
 }

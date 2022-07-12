@@ -1,10 +1,7 @@
 package pl.edu.agh.DroneRadar.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import pl.edu.agh.DroneRadar.component.Coordinate;
 
 @Entity
@@ -23,6 +20,7 @@ public class FlightDataEntry {
     private float speed;
     private float altitude;
 
+    @ToString.Exclude
     @OneToOne(mappedBy = "flightDataEntry")
     private Record record;
 }

@@ -18,6 +18,10 @@ public class FlightService {
         this.recordService = recordService;
     }
 
+    public Flight findFlightById(Long id){
+        return this.flightRepository.getReferenceById(id);
+    }
+
     public Flight addFlight(Flight flight){
         return this.flightRepository.save(flight);
     }

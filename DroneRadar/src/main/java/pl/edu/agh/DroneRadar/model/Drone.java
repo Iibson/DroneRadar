@@ -27,6 +27,7 @@ public class Drone {
     private float fuel;
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @Builder.Default
+    @ToString.Exclude
     List<Flight> flights = new ArrayList<>();
 
     //maybe used in future
