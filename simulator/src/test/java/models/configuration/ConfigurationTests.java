@@ -1,9 +1,8 @@
-package models;
+package models.configuration;
 
 import exceptions.NoConfigFileException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 
 import java.io.IOException;
 
@@ -25,6 +24,7 @@ public class ConfigurationTests {
         Assertions.assertEquals(19.94, config.getStartLong());
         Assertions.assertEquals(0.5, config.getPositionSpread());
         Assertions.assertEquals(5, config.getRefreshRateInSeconds());
+        Assertions.assertEquals(5, config.getMaxNumberOfFiles());
         Assertions.assertEquals(5, config.getMaxNumberOfFiles());
     }
 }

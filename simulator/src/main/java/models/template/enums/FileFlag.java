@@ -1,4 +1,4 @@
-package models.enums;
+package models.template.enums;
 
 import java.util.Locale;
 

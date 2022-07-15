@@ -1,8 +1,7 @@
 import exceptions.NoConfigFileException;
 import exceptions.WrongFileCreatorType;
-import fileCreators.factories.FileCreatorFactory;
 import generators.DroneFileTemplatesGenerator;
-import models.Configuration;
+import models.configuration.Configuration;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,26 +23,10 @@ public class Main {
 
         System.out.println(filePath);
 
-        var fileCreator = FileCreatorFactory.getFileCreator(config.getCreatedFileTypes(), filePath);
-        var timer = new Timer();
-
-        timer.schedule(new TimerTask() {
-            int iterations = 0;
-            final int maxIterations = config.getMaxNumberOfFiles();
-
-            @Override
-            public void run() {
-                if(this.iterations == this.maxIterations) {
-                    System.out.println("stopping");
-                    cancel();
-                } else {
-                    var droneFiles = droneFileGenerator.updateDroneFiles();
-                    fileCreator.createFilesAsync(droneFiles);
-                    System.out.println("generating files");
-                    iterations++;
-                }
-
-            }
-        }, 0, 1000L * config.getRefreshRateInSeconds());
+        try {
+            droneFileGenerator.exec();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
