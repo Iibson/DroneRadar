@@ -6,15 +6,19 @@ import org.springframework.stereotype.Service;
 
 import java.nio.file.*;
 import java.security.InvalidParameterException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Service
 @PropertySource("classpath:path.properties")
 public class DirectoryWatcher {
     private final String directoryPath;
     private final Parser parser;
+    private final ExecutorService executor;
 
     public DirectoryWatcher(Parser parser, Environment environment) {
         this.parser = parser;
+        this.executor = Executors.newFixedThreadPool(150);
         var prop = environment.getProperty("path.path");
         if (prop == null) throw new InvalidParameterException("Missing path.path variable in path.properties");
         this.directoryPath = prop;
@@ -47,16 +51,14 @@ public class DirectoryWatcher {
     }
 
     private void handleFileAsync(Path filePath) {
-        new Thread(() -> {
+        executor.submit(() -> {
             try {
                 Thread.sleep(3000);
                 parser.parseCSV(filePath.toString());
                 Files.delete(filePath);
             } catch (Exception e) {
                 e.printStackTrace();
-            }
-        })
-                .start();
+            }});
     }
 
     @SuppressWarnings("unchecked")
