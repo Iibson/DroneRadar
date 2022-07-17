@@ -1,10 +1,10 @@
-package models.template.generators;
+package models.template.providers;
 
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-public class DroneFileTemplateGenerator {
+public class DroneFileTemplateValuesProvider {
 
     private static final String[] modelNames = new String[]{"DJI Mavic 3", "DJI FPV", "Parrot ANAFI", "DJI Mini SE", "Autel EVO"};
     private static final String[] countryNames = new String[]{"pl", "en", "fr"};

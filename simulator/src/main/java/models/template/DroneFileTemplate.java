@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 import models.template.enums.FileFlag;
 import models.template.creationOptions.DroneFileTemplateCreationOptions;
-import models.template.generators.DroneFileTemplateGenerator;
+import models.template.providers.DroneFileTemplateValuesProvider;
 
 import java.util.*;
 
@@ -71,16 +71,12 @@ public class DroneFileTemplate {
     private String ext5 = "";
     @Builder.Default
     private String ext6 = "";
+    public String[] getDroneFileTemplateFieldNames() {
+        return DroneFileTemplateFieldContainer.getDroneFileTemplateFieldNames();
+    }
 
-    public DroneFileTemplateFields getDroneFileFieldValueArray() throws IllegalAccessException {
-        var names = new String[33];
-        var values = new String[33];
-        var fields = this.getClass().getDeclaredFields();
-        for (int i = 0; i < fields.length; i++) {
-            names[i] = fields[i].getName();
-            values[i] = fields[i].get(this).toString();
-        }
-        return new DroneFileTemplateFields(names, values);
+    public String[] getDroneFileTemplateFieldValues() throws IllegalAccessException {
+        return DroneFileTemplateFieldContainer.getDroneFileTemplateFieldValues(this);
     }
 
     public static DroneFileTemplate defaultGeneration(DroneFileTemplateCreationOptions options) {
@@ -97,13 +93,13 @@ public class DroneFileTemplate {
                 .longitude(options.getLongitude())
                 .heading(options.getHeading())
                 .speed(options.getSpeed())
-                .altitude(DroneFileTemplateGenerator.randomAltitude())
-                .country(DroneFileTemplateGenerator.randomCountry())
-                .model(DroneFileTemplateGenerator.randomModel())
-                .type(DroneFileTemplateGenerator.randomType())
-                .sign(DroneFileTemplateGenerator.randomSign())
-                .registrationNumber(DroneFileTemplateGenerator.randomRegistrationNumber())
-                .identification(DroneFileTemplateGenerator.randomIdentification())
+                .altitude(DroneFileTemplateValuesProvider.randomAltitude())
+                .country(DroneFileTemplateValuesProvider.randomCountry())
+                .model(DroneFileTemplateValuesProvider.randomModel())
+                .type(DroneFileTemplateValuesProvider.randomType())
+                .sign(DroneFileTemplateValuesProvider.randomSign())
+                .registrationNumber(DroneFileTemplateValuesProvider.randomRegistrationNumber())
+                .identification(DroneFileTemplateValuesProvider.randomIdentification())
                 .build();
     }
 }

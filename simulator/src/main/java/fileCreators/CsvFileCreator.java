@@ -20,11 +20,10 @@ public record CsvFileCreator(String dirPath) implements FileCreator {
     }
 
     private void writeToCsv(File file, DroneFileTemplate droneFileTemplate) throws IllegalAccessException {
-        var fieldValues = droneFileTemplate.getDroneFileFieldValueArray();
 
         try(PrintWriter pw = new PrintWriter(file)) {
-            pw.println(prepCsvLine(fieldValues.names()));
-            pw.println(prepCsvLine(fieldValues.values()));
+            pw.println(prepCsvLine(droneFileTemplate.getDroneFileTemplateFieldNames()));
+            pw.println(prepCsvLine(droneFileTemplate.getDroneFileTemplateFieldValues()));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
