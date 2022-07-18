@@ -87,7 +87,7 @@ public class Parser {
             flight = Flight.builder()
                     .drone(drone)
                     .build();
-            drone.getFlights().add(flight);
+            //drone.getFlights().add(flight);
 
         }
 

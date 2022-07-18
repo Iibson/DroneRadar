@@ -27,9 +27,10 @@ public class FlightService {
     }
 
     public void addRecordToFlight(Long flightId, Record record){
-        Record r = recordService.addRecord(record);
-        Flight flight = flightRepository.getReferenceById(flightId);
-        flight.getRecords().add(r);
+        ///Record r = recordService.addRecord(record);
+        Flight flight = flightRepository.getFlightById(flightId);
+        flight.getRecords().add(record);
+        record.setFlight(flight);
         flightRepository.save(flight);
     }
 

@@ -6,4 +6,5 @@ import pl.edu.agh.DroneRadar.model.Flight;
 
 public interface FlightRepository extends JpaRepository<Flight, Long> {
     Flight findTopByDrone(Drone drone);
+    Flight getFlightById(Long id);
 }

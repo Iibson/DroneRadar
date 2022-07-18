@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "record")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,4 +25,8 @@ public class Record {
 
     @OneToOne(cascade = CascadeType.ALL)
     private FlightDataEntry flightDataEntry;
+
+    @ManyToOne
+    @JoinColumn(name = "flight_id")
+    private Flight flight;
 }

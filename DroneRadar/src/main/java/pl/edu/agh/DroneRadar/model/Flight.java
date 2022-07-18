@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import java.util.*;
 
 @Entity
+@Table(name = "flight")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,9 +23,10 @@ public class Flight {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "drone_id")
     private Drone drone;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "flight")
     @Builder.Default
     private List<Record> records = new ArrayList<>();
 }
