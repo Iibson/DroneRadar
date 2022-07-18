@@ -1,4 +1,4 @@
-package models;
+package models.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import exceptions.NoConfigFileException;
@@ -22,6 +22,7 @@ public class Configuration {
     private Integer refreshRateInSeconds;
     private String createdFileTypes;
     private Integer maxNumberOfFiles;
+    private Integer maxNumberOfDronesGeneratedAtOnce;
 
     public static Configuration initConfiguration(String filename) throws IOException, NoConfigFileException {
         var file = Configuration.class

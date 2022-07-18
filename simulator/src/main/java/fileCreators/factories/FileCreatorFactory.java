@@ -8,7 +8,6 @@ import jdk.jshell.spi.ExecutionControl;
 import java.util.Locale;
 
 public class FileCreatorFactory {
-
     public static FileCreator getFileCreator(String type, String path) throws WrongFileCreatorType {
         return switch (type.toLowerCase(Locale.ROOT)) {
             case "csv" -> new CsvFileCreator(path);

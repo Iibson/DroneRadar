@@ -1,10 +1,11 @@
 {
-  "filePath": "/home/krzysztof/test2/",
+  "filePath": "D:\\gownoxd\\from pulpit\\studia\\inzynierka\\Files",
   "createdFileTypes" : "csv",
-  "droneNumber": 10,
+  "droneNumber": 30,
   "startLat": 50.09,
   "startLong": 19.94,
   "positionSpread": 0.5,
   "refreshRateInSeconds": 1,
-  "maxNumberOfFiles": 10
+  "maxNumberOfFiles": 150,
+  "maxNumberOfDronesGeneratedAtOnce": 20
 }

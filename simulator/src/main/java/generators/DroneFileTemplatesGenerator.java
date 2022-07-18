@@ -1,93 +1,38 @@
 package generators;
 
+import exceptions.WrongFileCreatorType;
+import fileCreators.factories.FileCreatorFactory;
 import lombok.Getter;
-import models.Configuration;
-import models.DroneFileTemplate;
-import models.enums.FileFlag;
-import org.javatuples.Pair;
+import models.configuration.Configuration;
+import models.droneState.DroneState;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.concurrent.Semaphore;
 
 public class DroneFileTemplatesGenerator {
     private final Configuration configuration;
     @Getter
-    private final List<DroneFileTemplate> droneFileTemplates;
+    private final DroneState[] states;
 
-    public DroneFileTemplatesGenerator(Configuration configuration) {
+    public DroneFileTemplatesGenerator(Configuration configuration) throws WrongFileCreatorType {
         this.configuration = configuration;
-        this.droneFileTemplates = initDroneFiles(configuration);
+        this.states = initDroneStates(configuration);
     }
 
-    public List<DroneFileTemplate> updateDroneFiles() {
-        var date = new Date();
-        droneFileTemplates.forEach(drone -> {
-            var distInKm =  (double) drone.getSpeed() / 3600f * configuration.getRefreshRateInSeconds();
-            var angleInRad = drone.getHeading() * Math.PI / 180;
-            var updateLat = Math.cos(angleInRad) * distInKm;
-            var updateLong = Math.sin(angleInRad) * distInKm;
-            drone.setLatitude(drone.getLatitude() + updateLat);
-            drone.setLongitude(drone.getLongitude() + updateLong);
-            drone.setHeading(createNewHeading(drone.getHeading()));
-            drone.setFileName("Simulator_" + drone.getId() + "_" + date.getTime());
-            drone.setDate(date.getTime());
-            drone.setTime(date);
-        });
-        return droneFileTemplates;
-    }
+    private DroneState[] initDroneStates(Configuration configuration) throws WrongFileCreatorType {
+        var states = new DroneState[configuration.getDroneNumber()];
+        var creator = FileCreatorFactory.getFileCreator(configuration.getCreatedFileTypes(), configuration.getFilePath());
 
-    private List<DroneFileTemplate> initDroneFiles(Configuration configuration) {
-        var droneFiles = new ArrayList<DroneFileTemplate>();
-
-        for(int i = 0; i < configuration.getDroneNumber(); i++) {
-            droneFiles.add(buildDefaultDroneFile(configuration, i));
+        for (int i = 0; i < configuration.getDroneNumber(); i++) {
+            states[i] = new DroneState(creator, configuration, i);
         }
 
-        return droneFiles;
+        return states;
     }
 
-    private DroneFileTemplate buildDefaultDroneFile(Configuration configuration, Integer id) {
-        var date = new Date();
-        var position = initStartingLatLong(configuration.getStartLat(), configuration.getStartLong(), configuration.getPositionSpread());
-        return DroneFileTemplate.builder()
-                .fileName("Simulator_" + id + "_" + date.getTime())
-                .date(date.getTime())
-                .time(date)
-                .id(id)
-                .idExt(id)
-                .identification(id)
-                .flag(FileFlag.BEG)
-                .latitude(position.getValue0())
-                .registrationNumber(id.toString())
-                .longitude(position.getValue1())
-                .heading(initHeading())
-                .speed(initSpeed())
-                .altitude(100)
-                .build();
-    }
-
-    private Pair<Double, Double> initStartingLatLong(Double latitude, Double longitude, Double spread) {
-        var r = new Random().nextDouble() * spread;
-        return new Pair<>(latitude + r, longitude + r);
-    }
-
-    private Integer initHeading() {
-        return Math.abs(new Random().nextInt()) % 361;
-    }
-
-    private Integer initSpeed() {
-        return Math.abs(new Random().nextInt()) % 15 + 15;
-    }
-
-    //TODO improve this shit
-    private Integer createNewHeading(Integer currentHeading) {
-        var random =  new Random();
-        if(random.nextInt() % 10 < 4) return currentHeading;
-        var newValue = random.nextInt() % 15 + 15 + currentHeading;
-        if(newValue > 360) newValue = newValue % 360;
-        else if(newValue < 0) newValue = 360 + newValue;
-        return newValue;
+    public void exec() throws InterruptedException {
+        var semaphore = new Semaphore(configuration.getMaxNumberOfDronesGeneratedAtOnce());
+        for (int i = 0; i < configuration.getDroneNumber(); i++) {
+            states[i].executeDroneLoop(semaphore);
+        }
     }
 }
