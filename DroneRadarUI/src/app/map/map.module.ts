@@ -12,6 +12,8 @@ import { SidebarModule } from 'primeng/sidebar';
 import { SidebarsService } from './services/sidebars/sidebars.service';
 import { ButtonModule } from 'primeng/button';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
+import { DroneService } from './services/drone/drone.service';
+import { DroneInfoSidebarComponent } from './components/drone-info-sidebar/drone-info-sidebar.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,7 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
     MapMenuComponent,
     MapExpandingSideButtonComponent,
     DroneListSidebarComponent,
+    DroneInfoSidebarComponent,
   ],
   imports: [
     CommonModule,
@@ -29,6 +32,6 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
     ButtonModule,
     ScrollPanelModule,
   ],
-  providers: [MapService, SidebarsService],
+  providers: [MapService, SidebarsService, DroneService],
 })
 export class MapModule {}

@@ -1,0 +1,51 @@
+@import "../../../../styles.scss";
+
+.drone-list-sidebar {
+  margin-top: 15px;
+  height: 88vh;
+  overflow: hidden;
+  &-close-button,
+  &-refresh-button {
+    width: 100%;
+    text-align: right;
+    i {
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+  }
+  &-content {
+    height: 85vh;
+    width: 100%;
+ 
+    .p-scrollPanel {
+      width: 100%;
+      height: 100%;
+    }
+    .info {
+      border-bottom: 1px white solid;
+      padding: 10px 0px;
+    }
+  }
+  &-element {
+    height: 50px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    border: 1px dashed var(--text-color-secondary);
+    position: relative;
+    &:hover {
+      background-color: $primary-app-color;
+      cursor: pointer;
+    }
+    &-column {
+      display: inline-block;
+      height: 50px;
+      vertical-align: top;
+    }
+    &-informations {
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+  }
+}

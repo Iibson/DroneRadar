@@ -5,10 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import pl.edu.agh.DroneRadar.dto.DroneBasicDataDto;
 import pl.edu.agh.DroneRadar.dto.DroneDetailsDto;
 import pl.edu.agh.DroneRadar.dto.FlightDetailsDto;
@@ -19,6 +16,7 @@ import pl.edu.agh.DroneRadar.service.FlightService;
 import java.util.function.Function;
 
 @Controller
+@CrossOrigin(origins = "http://localhost:4200")
 public class RestController {
 
     @Autowired

@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 import { MapService } from '../../services/map/map.service';
 import { RotatedMarker } from 'leaflet-marker-rotation';
 import { SidebarsService } from '../../services/sidebars/sidebars.service';
+import { DroneService } from '../../services/drone/drone.service';
 @Component({
   selector: 'app-map-view',
   templateUrl: './map-view.component.html',
@@ -31,7 +32,8 @@ export class MapViewComponent implements AfterViewInit, OnInit, OnDestroy {
 
   constructor(
     private _mapService: MapService,
-    private _sidebarsService: SidebarsService
+    private _sidebarsService: SidebarsService,
+    private _droneService: DroneService
   ) {}
 
   ngOnInit(): void {
@@ -114,6 +116,7 @@ export class MapViewComponent implements AfterViewInit, OnInit, OnDestroy {
             })
               .bindPopup(obj.basicinfoString)
               .addTo(this.markerGroup)
+              .on('click',(event) => this.markerClick(this, obj.objectId))
           );
         }
       });
@@ -129,4 +132,14 @@ export class MapViewComponent implements AfterViewInit, OnInit, OnDestroy {
   showDroneList(): void {
     this._sidebarsService.droneListSidebarVisible = true;
   }
+
+  markerClick(event: any, droneId: number) {
+    this._droneService.getDroneInfoById(droneId).subscribe(res => {
+      this._sidebarsService.droneInfoSidebarVisible = true;
+      this._droneService.notifyAboutDroneInfo(res);
+      console.log(res)
+    });
+    
+  }
+
 }
