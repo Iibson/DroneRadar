@@ -3,6 +3,13 @@
   [baseZIndex]="10"
   [modal]="false"
   [showCloseIcon]="false">
+  <div class="drone-list-sidebar-refresh-button">
+    <i pButton
+      type="button"
+      icon="fa fa-refresh"
+      class="p-button-secondary p-button-text"
+      (click)="refresh()"></i>
+  </div>
   <div class="drone-list-sidebar">
     <div class="drone-list-sidebar-close-button">
       <i pButton

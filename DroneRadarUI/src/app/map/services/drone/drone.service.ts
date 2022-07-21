@@ -18,7 +18,7 @@ export class DroneService {
  
     
 
-  public getDroneInfoById(droneId: number): Observable<Drone> {
+  public getDroneInfoById(droneId: number | string): Observable<Drone> {
     return this.httpClient.get<Drone>(this.baseUrl+droneId);
   }
 }
