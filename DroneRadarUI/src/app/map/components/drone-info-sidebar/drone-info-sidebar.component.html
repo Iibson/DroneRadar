@@ -1,0 +1,62 @@
+<p-sidebar [(visible)]="visible"
+    position="right"
+  [baseZIndex]="10"
+  [modal]="false"
+  [showCloseIcon]="false">
+  <div class="drone-list-sidebar-refresh-button">
+    <i pButton
+      type="button"
+      icon="fa fa-refresh"
+      class="p-button-secondary p-button-text"
+      (click)="refresh()"></i>
+  </div>
+  <div class="drone-list-sidebar">
+    <div class="drone-list-sidebar-close-button">
+      <i pButton
+        type="button"
+        icon="fa fa-arrow-right"
+        class="p-button-secondary p-button-text"
+        (click)="close()"></i>
+    </div>
+    <div class="drone-list-sidebar-content">
+        <h2>Drone info</h2>
+        <div class="info">
+            <div>Registration number</div>
+            <div>{{droneInfo.registrationNumber}}</div>
+        </div>
+        <div class="info">
+            <div>Country</div>
+            <div>{{droneInfo.country}}</div>
+        </div>
+        <div class="info">
+            <div>Fuel</div>
+            <div>{{droneInfo.fuel}}</div>
+        </div>
+        <div class="info">
+            <div>Identification</div>
+            <div>{{droneInfo.identification}}</div>
+        </div>
+        <div class="info">
+            <div>Identification label</div>
+            <div>{{droneInfo.identificationLabel}}</div>
+        </div>
+        <div class="info">
+            <div>Model</div>
+            <div>{{droneInfo.model}}</div>
+        </div>
+        <div class="info">
+            <div>Operator</div>
+            <div>{{droneInfo.operator}}</div>
+        </div>
+        <div class="info">
+            <div>Sign</div>
+            <div>{{droneInfo.sign}}</div>
+        </div>
+        <div class="info">
+            <div>Type</div>
+            <div>{{droneInfo.type}}</div> 
+        </div> 
+        
+    </div>
+  </div>
+</p-sidebar>
