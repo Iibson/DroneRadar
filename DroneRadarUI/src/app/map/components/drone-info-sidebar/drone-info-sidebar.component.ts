@@ -52,4 +52,13 @@ export class DroneInfoSidebarComponent implements OnInit {
     this.visible = false;
   }
 
+  refresh(): void {
+    this.mapService.refreshMapSnapshot();
+    this.droneService.getDroneInfoById(this.droneInfo.registrationNumber).subscribe(res => {
+      console.log(res);
+      
+      this.droneService.notifyAboutDroneInfo(res);
+    })
+  }
+
 }

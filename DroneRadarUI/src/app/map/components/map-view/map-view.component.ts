@@ -22,6 +22,7 @@ export class MapViewComponent implements AfterViewInit, OnInit, OnDestroy {
   markerGroup!: L.LayerGroup<any>;
   markersMap: Map<number, RotatedMarker> = new Map();
   subs: Subscription[] = [];
+  showDroneInfoExpandingButton: boolean = false;
 
   planeIcon = L.icon({
     iconUrl: 'assets/plane-icon.png',
@@ -136,10 +137,12 @@ export class MapViewComponent implements AfterViewInit, OnInit, OnDestroy {
   markerClick(event: any, droneId: number) {
     this._droneService.getDroneInfoById(droneId).subscribe(res => {
       this._sidebarsService.droneInfoSidebarVisible = true;
+      this.showDroneInfoExpandingButton = true;
       this._droneService.notifyAboutDroneInfo(res);
       console.log(res)
-    });
-    
+    });  
   }
-
+  showSelectedDoneInfo = () => {
+    this._sidebarsService.droneInfoSidebarVisible = true;
+  }
 }

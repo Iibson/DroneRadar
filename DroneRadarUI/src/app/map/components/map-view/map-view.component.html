@@ -6,6 +6,13 @@
   [iconClass]="'fa fa-list text-lg'"
   [topPosition]="'200px'"
   (onClick)="showDroneList()"></app-map-expanding-side-button>
+  <app-map-expanding-side-button 
+  *ngIf="showDroneInfoExpandingButton"
+  buttonText="Drone info"
+  [side]="'right'"
+  [iconClass]="'fa fa-list text-lg'"
+  [topPosition]="'200px'"
+  (onClick)="showSelectedDoneInfo()"></app-map-expanding-side-button>
 <app-map-menu></app-map-menu>
 <app-drone-list-sidebar></app-drone-list-sidebar>
 <app-drone-info-sidebar></app-drone-info-sidebar>
