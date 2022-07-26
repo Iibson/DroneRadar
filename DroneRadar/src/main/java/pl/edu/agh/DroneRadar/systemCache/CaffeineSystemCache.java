@@ -32,10 +32,10 @@ public class CaffeineSystemCache implements SystemCache {
     @Override
     public List<DroneCacheEntry> getLatestEntriesByArea(float maxLat, float maxLong, float minLat, float minLong) {
         return getCacheValuesAsStream()
-                .filter(entry -> entry.latitude() > minLat)
-                .filter(entry -> entry.latitude() < maxLat)
-                .filter(entry -> entry.longitude() > minLong)
-                .filter(entry -> entry.longitude() < maxLong)
+                .filter(entry -> entry.getLatitude() > minLat)
+                .filter(entry -> entry.getLatitude() < maxLat)
+                .filter(entry -> entry.getLongitude() > minLong)
+                .filter(entry -> entry.getLongitude() < maxLong)
                 .toList();
     }
 
@@ -47,7 +47,7 @@ public class CaffeineSystemCache implements SystemCache {
 
     @Override
     public void insertOrUpdateEntry(DroneCacheEntry droneCacheEntry) {
-        cache.put(droneCacheEntry.registrationNumber(), droneCacheEntry);
+        cache.put(droneCacheEntry.getRegistrationNumber(), droneCacheEntry);
     }
 
     @Override

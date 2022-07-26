@@ -1,0 +1,119 @@
+<p-sidebar [(visible)]="visible"
+  [baseZIndex]="10"
+  [modal]="false"
+  [showCloseIcon]="false">
+  <div class="filters-sidebar">
+    <div class="filters-sidebar-close-button">
+      <i pButton
+        type="button"
+        icon="fa fa-arrow-left"
+        class="p-button-secondary p-button-text"
+        (click)="close()"></i>
+    </div>
+    <div class="filters-sidebar-content"
+      [formGroup]="filters">
+      <p-scrollPanel [style]="scrollPanelStyle">
+        <div class="form__group field">
+          <input type="input"
+            class="form__field"
+            placeholder="id"
+            id='id'
+            name="id"
+            formControlName="id" />
+          <label for="Id"
+            class="form__label">Id</label>
+        </div>
+        <p-divider align="left">
+          <h4>Drone parameters</h4>
+        </p-divider>
+        <div class="form__group field">
+          <input type="input"
+            class="form__field"
+            placeholder="Country"
+            name="country"
+            id='country'
+            formControlName="country" />
+          <label for="country"
+            class="form__label">Country</label>
+        </div>
+        <div class="form__group field">
+          <input type="input"
+            class="form__field"
+            placeholder="Type"
+            name="type"
+            id='type'
+            formControlName="type" />
+          <label for="type"
+            class="form__label">Type</label>
+        </div>
+        <div class="form__group field">
+          <input type="input"
+            class="form__field"
+            placeholder="Model"
+            name="model"
+            id='model'
+            formControlName="model" />
+          <label for="model"
+            class="form__label">Model</label>
+        </div>
+        <div class="form__group field">
+          <input type="input"
+            class="form__field"
+            placeholder="Registration Number"
+            name="registrationNumber"
+            id='registrationNumber'
+            formControlName="registrationNumber" />
+          <label for="registrationNumber"
+            class="form__label">Registration Number</label>
+        </div>
+        <div class="form__group field">
+          <input type="input"
+            class="form__field"
+            placeholder="Fuel state"
+            name="fuelState"
+            id='fuelState'
+            formControlName="fuelState" />
+          <label for="fuelState"
+            class="form__label">Fuel State</label>
+        </div>
+        <p-divider align="left">
+          <h4>Sensor Info</h4>
+        </p-divider>
+        <div class="form__group field">
+          <input type="input"
+            class="form__field"
+            placeholder="Signal"
+            name="signal"
+            id='signal'
+            formControlName="signal" />
+          <label for="signal"
+            class="form__label">Signal</label>
+        </div>
+        <div class="form__group field">
+          <input type="input"
+            class="form__field"
+            placeholder="Frequency"
+            name="frequency"
+            id='frequency'
+            formControlName="frequency" />
+          <label for="frequency"
+            class="form__label">Frequency</label>
+        </div>
+      </p-scrollPanel>
+    </div>
+    <div class="filters-sidebar-footer">
+      <button pButton
+        type="button"
+        label="Filter"
+        class="p-button-rounded p-button-sm mx-1"
+        (click)="applyFilters()">
+      </button>
+      <button pButton
+        type="button"
+        label="Reset filters"
+        class="p-button-outlined p-button-rounded p-button-sm mx-1"
+        (click)="resetFilters()">
+      </button>
+    </div>
+  </div>
+</p-sidebar>

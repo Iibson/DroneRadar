@@ -14,12 +14,15 @@ import { ButtonModule } from 'primeng/button';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { DroneService } from './services/drone/drone.service';
 import { DroneInfoSidebarComponent } from './components/drone-info-sidebar/drone-info-sidebar.component';
-
+import { FiltersSidebarComponent } from './components/filters-sidebar/filters-sidebar.component';
+import { DividerModule } from 'primeng/divider';
+import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     MapViewComponent,
     MapMenuComponent,
     MapExpandingSideButtonComponent,
+    FiltersSidebarComponent,
     DroneListSidebarComponent,
     DroneInfoSidebarComponent,
   ],
@@ -31,6 +34,8 @@ import { DroneInfoSidebarComponent } from './components/drone-info-sidebar/drone
     SidebarModule,
     ButtonModule,
     ScrollPanelModule,
+    DividerModule,
+    ReactiveFormsModule
   ],
   providers: [MapService, SidebarsService, DroneService],
 })
