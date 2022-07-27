@@ -14,4 +14,5 @@ public class DroneFileTemplateCreationOptions {
     private final Integer heading;
     private final Integer speed;
     private final Date date;
+    private final Integer altitude;
 }

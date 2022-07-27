@@ -5,6 +5,7 @@ import models.configuration.Configuration;
 import models.template.DroneFileTemplate;
 import models.template.creationOptions.DroneFileTemplateCreationOptions;
 import models.template.enums.FileFlag;
+import models.template.generators.DroneFileTemplateGenerator;
 import org.javatuples.Pair;
 
 import java.util.Date;
@@ -18,12 +19,13 @@ public class DroneState {
     private final Configuration configuration;
     private final FileCreator fileCreator;
 
-    public DroneState(FileCreator fileCreator, Configuration configuration, Integer id) {
+    public DroneState(FileCreator fileCreator, Configuration configuration, Integer id, DroneFileTemplate drone) {
         this.id = id;
         this.configuration = configuration;
-        this.drone = defaultDroneFileTemplate();
+        this.drone = drone;
         this.fileCreator = fileCreator;
     }
+
     public void executeDroneLoop(Semaphore semaphore) {
         var gotSem = new AtomicBoolean(true);
         try {
@@ -34,7 +36,7 @@ public class DroneState {
                 } catch (InterruptedException e) {
                     gotSem.set(false);
                 } finally {
-                    if(gotSem.get()) semaphore.release(1);
+                    if (gotSem.get()) semaphore.release(1);
                 }
 
             });
@@ -47,7 +49,7 @@ public class DroneState {
     private void droneLoop() {
         var iterations = 0;
         var continueTimer = true;
-        while(true) {
+        while (true) {
             continueTimer = droneStateCycle(iterations);
             iterations++;
             if (!continueTimer) {
@@ -71,7 +73,7 @@ public class DroneState {
         drone.setLatitude(drone.getLatitude() + updateLat);
         drone.setLongitude(drone.getLongitude() + updateLong);
         drone.setHeading(createNewHeading());
-        drone.setFileName(createFileName());
+        drone.setFileName(createFileName(iteration));
         drone.setDate(date.getTime());
         drone.setTime(date);
         if (iteration > 0)
@@ -80,35 +82,10 @@ public class DroneState {
         return continueFlight;
     }
 
-    private DroneFileTemplate defaultDroneFileTemplate() {
-        var latLong = initStartingLatLong();
-        var options = DroneFileTemplateCreationOptions.builder()
-                .heading(initHeading())
-                .speed(initSpeed())
-                .id(id)
-                .latitude(latLong.getValue0())
-                .longitude(latLong.getValue1())
-                .date(new Date())
-                .build();
-        return DroneFileTemplate.defaultGeneration(options);
+    private String createFileName(int iteration) {
+        return "Simulator_" + id + "_" + iteration;
     }
 
-    private Integer initHeading() {
-        return Math.abs(new Random().nextInt()) % 361;
-    }
-
-    private Integer initSpeed() {
-        return Math.abs(new Random().nextInt()) % 15 + 15;
-    }
-
-    private String createFileName() {
-        return "Simulator_" + id + "_" + new Date().getTime();
-    }
-
-    private Pair<Double, Double> initStartingLatLong() {
-        var r = new Random().nextDouble() * configuration.getPositionSpread();
-        return new Pair<>(configuration.getStartLat() + r, configuration.getStartLong() + r);
-    }
 
     private Integer createNewHeading() {
         var currentHeading = drone.getHeading();

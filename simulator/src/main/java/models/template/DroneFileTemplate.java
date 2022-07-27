@@ -3,8 +3,6 @@ package models.template;
 import lombok.Builder;
 import lombok.Data;
 import models.template.enums.FileFlag;
-import models.template.creationOptions.DroneFileTemplateCreationOptions;
-import models.template.providers.DroneFileTemplateValuesProvider;
 
 import java.util.*;
 
@@ -77,29 +75,5 @@ public class DroneFileTemplate {
 
     public String[] getDroneFileTemplateFieldValues() throws IllegalAccessException {
         return DroneFileTemplateFieldContainer.getDroneFileTemplateFieldValues(this);
-    }
-
-    public static DroneFileTemplate defaultGeneration(DroneFileTemplateCreationOptions options) {
-        return DroneFileTemplate.builder()
-                .fileName("Simulator_" + options.getId() + "_" + options.getDate().getTime())
-                .date(options.getDate().getTime())
-                .time(options.getDate())
-                .id(options.getId())
-                .idExt(options.getId())
-                .identification(options.getId())
-                .flag(FileFlag.BEG)
-                .latitude(options.getLatitude())
-                .registrationNumber(options.getId().toString())
-                .longitude(options.getLongitude())
-                .heading(options.getHeading())
-                .speed(options.getSpeed())
-                .altitude(DroneFileTemplateValuesProvider.randomAltitude())
-                .country(DroneFileTemplateValuesProvider.randomCountry())
-                .model(DroneFileTemplateValuesProvider.randomModel())
-                .type(DroneFileTemplateValuesProvider.randomType())
-                .sign(DroneFileTemplateValuesProvider.randomSign())
-                .registrationNumber(DroneFileTemplateValuesProvider.randomRegistrationNumber())
-                .identification(DroneFileTemplateValuesProvider.randomIdentification())
-                .build();
     }
 }

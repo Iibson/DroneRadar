@@ -3,22 +3,21 @@ package pl.edu.agh.DroneRadar.parser;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
+import pl.edu.agh.DroneRadar.threadPool.AppThreadPool;
 
 import java.nio.file.*;
 import java.security.InvalidParameterException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 @Service
 @PropertySource("classpath:path.properties")
 public class DirectoryWatcher {
     private final String directoryPath;
     private final Parser parser;
-    private final ExecutorService executor;
+    private final AppThreadPool pool;
 
-    public DirectoryWatcher(Parser parser, Environment environment) {
+    public DirectoryWatcher(Parser parser, Environment environment, AppThreadPool pool) {
         this.parser = parser;
-        this.executor = Executors.newFixedThreadPool(150);
+        this.pool = pool;
         var prop = environment.getProperty("path.path");
         if (prop == null) throw new InvalidParameterException("Missing path.path variable in path.properties");
         this.directoryPath = prop;
@@ -51,11 +50,12 @@ public class DirectoryWatcher {
     }
 
     private void handleFileAsync(Path filePath) {
-        executor.submit(() -> {
+        pool.submit(() -> {
             try {
                 Thread.sleep(3000);
                 parser.parseCSV(filePath.toString());
                 Files.delete(filePath);
+                System.out.println(filePath.getFileName());
             } catch (Exception e) {
                 e.printStackTrace();
             }});
