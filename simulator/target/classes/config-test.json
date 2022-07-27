@@ -7,5 +7,6 @@
   "positionSpread": 0.5,
   "refreshRateInSeconds": 5,
   "maxNumberOfFiles": 5,
-  "maxNumberOfDronesGeneratedAtOnce": 20
+  "maxNumberOfDronesGeneratedAtOnce": 20,
+  "numberOfPrebuiltDrones": 10
 }

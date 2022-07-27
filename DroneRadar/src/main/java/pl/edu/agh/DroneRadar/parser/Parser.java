@@ -14,6 +14,8 @@ import pl.edu.agh.DroneRadar.systemCache.models.DroneCacheEntry;
 
 import java.io.FileReader;
 import java.sql.Timestamp;
+import java.time.Duration;
+import java.time.Instant;
 
 @Service
 public class Parser {
@@ -43,6 +45,7 @@ public class Parser {
     }
 
     public void parseCSV(String filePath) {
+
         try (var filerReader = new FileReader(filePath)) {
             new CsvToBeanBuilder<CSVFlightData>(filerReader)
                     .withType(CSVFlightData.class)
@@ -134,8 +137,6 @@ public class Parser {
                 .flightDataEntry(flightDataEntry)
                 .sensor(sensor)
                 .build();
-
-        System.out.println("file parsed");
 
         this.systemCache.insertOrUpdateEntry(new DroneCacheEntry(Float.parseFloat(flightData.getLatitude()),
                 Float.parseFloat(flightData.getLongitude()),
