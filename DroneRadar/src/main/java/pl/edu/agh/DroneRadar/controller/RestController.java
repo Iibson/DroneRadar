@@ -32,6 +32,11 @@ public class RestController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+//    @GetMapping("/drone/lastFlight/{registrationNumber}")
+//    public @ResponseBody ResponseEntity<FlightDetailsDto> getDroneLastFlight(@PathVariable String registrationNumber) {
+//        FlightDetailsDto dto = FlightDetailsDto.newInstance(flightService.findLastFlightForDroneByRegistrationNumber(registrationNumber));
+//        return new ResponseEntity<>(dto, HttpStatus.OK);
+//    }
 
     @GetMapping("/flight/{id}")
     public @ResponseBody ResponseEntity<FlightDetailsDto> getFlightDetails(@PathVariable Long id) {

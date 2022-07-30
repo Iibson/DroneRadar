@@ -1,7 +1,7 @@
 {
-  "filePath": "D:\\gownoxd\\from pulpit\\studia\\inzynierka\\Files",
+  "filePath": "C:\\Users\\micha\\OneDrive\\Pulpit\\Studia projekty\\inzynierka\\DroneRadar\\flightData",
   "createdFileTypes" : "csv",
-  "droneNumber": 100,
+  "droneNumber": 20,
   "startLat": 50,
   "startLong": 19.64,
   "positionSpread": 0.5,

@@ -4,7 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
+import pl.edu.agh.DroneRadar.component.RecordType;
 import pl.edu.agh.DroneRadar.model.Drone;
+import pl.edu.agh.DroneRadar.model.Flight;
+import pl.edu.agh.DroneRadar.model.Record;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -28,6 +31,7 @@ public class DroneDetailsDto {
     private float fuel;
 
     List<FlightData> flights = new ArrayList<>();
+    CurrentFlightData currentFlight;
 
     @Override
     public String toString() {
@@ -60,6 +64,20 @@ public class DroneDetailsDto {
         Timestamp landing;
     }
 
+    @Getter
+    @Setter
+    private static class CurrentFlightData {
+        CurrentFlightData(float heading, float speed, float altitude){
+            this.heading = heading;
+            this.speed = speed;
+            this.altitude = altitude;
+        }
+
+        float heading;
+        float speed;
+        float altitude;
+    }
+
     public static DroneDetailsDto newInstance(Drone drone){
         DroneDetailsDto results = new DroneDetailsDto();
         results.country = drone.getCountry();
@@ -72,7 +90,7 @@ public class DroneDetailsDto {
         results.type = drone.getType();
         results.fuel = drone.getFuel();
 
-        System.out.println(drone.getFlights());
+        //System.out.println(drone.getFlights());
 
         List<Timestamp> drones = drone.getFlights().get(0).getRecords().stream().map(record -> {
             if(ObjectUtils.isEmpty(record.getBasicRecordData().getTimestamp())) {
@@ -82,8 +100,17 @@ public class DroneDetailsDto {
                 return record.getBasicRecordData().getTimestamp();
             }
         }).toList();
-        System.out.println(drones);
-
+        //System.out.println(drones);
+        Flight lastFlight = drone.getFlights().get(drone.getFlights().size()-1);
+        Record lastRecord = lastFlight.getRecords().get(lastFlight.getRecords().size()-1);
+        if(lastRecord.getBasicRecordData().getRecordType()!= RecordType.DROP) {
+            System.out.println("DZIALA");
+            System.out.println(lastRecord.getFlightDataEntry().getAltitude());
+            results.currentFlight = new CurrentFlightData(lastRecord.getFlightDataEntry().getHeading(),
+                    lastRecord.getFlightDataEntry().getSpeed(),
+                    lastRecord.getFlightDataEntry().getAltitude());
+        }
+        System.out.println(results.currentFlight.altitude);
         results.flights = drone.getFlights().stream().map(flight -> new FlightData(
                 flight.getId(),
                 new Timestamp(32531),

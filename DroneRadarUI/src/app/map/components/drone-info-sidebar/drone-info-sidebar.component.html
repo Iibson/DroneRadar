@@ -24,6 +24,18 @@
             <div>Registration number</div>
             <div>{{droneInfo.registrationNumber}}</div>
         </div>
+        <div class="info" *ngIf="droneInfo.currentFlight">
+            <div>Current Heading</div>
+            <div>{{droneInfo.currentFlight.heading}}</div>
+        </div>
+        <div class="info" *ngIf="droneInfo.currentFlight">
+            <div>Current Speed</div>
+            <div>{{droneInfo.currentFlight.speed}}</div>
+        </div>
+        <div class="info" *ngIf="droneInfo.currentFlight">
+            <div>Current Altitude</div>
+            <div>{{droneInfo.currentFlight.altitude}}</div>
+        </div>
         <div class="info">
             <div>Country</div>
             <div>{{droneInfo.country}}</div>

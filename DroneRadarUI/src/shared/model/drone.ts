@@ -8,4 +8,10 @@ export interface Drone {
     operator: string;
     sign: string;
     type: string;
+    currentFlight: CurrentFlight;
+}
+export interface CurrentFlight {
+    altitude: number;
+    heading: number;
+    speed: number;
 }

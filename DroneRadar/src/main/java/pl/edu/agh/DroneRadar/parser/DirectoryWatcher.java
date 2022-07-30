@@ -55,7 +55,7 @@ public class DirectoryWatcher {
                 Thread.sleep(3000);
                 parser.parseCSV(filePath.toString());
                 Files.delete(filePath);
-                System.out.println(filePath.getFileName());
+                //System.out.println(filePath.getFileName());
             } catch (Exception e) {
                 e.printStackTrace();
             }});
