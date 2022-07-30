@@ -68,7 +68,19 @@
             <div>Type</div>
             <div>{{droneInfo.type}}</div> 
         </div> 
-        
+        <p-scrollPanel [style]="scrollPanelStyle">
+            <div *ngFor="let flight of droneInfo.flights"
+              class="drone-list-sidebar-element">
+      
+              <div class="drone-list-sidebar-element-column">
+                <div class="drone-list-sidebar-element-informations">
+                  <div>
+                      Start Date: {{flight.takeOff}}, End Date {{flight.landing}}
+                  </div>
+                </div>
+              </div>
+            </div>
+        </p-scrollPanel>
     </div>
   </div>
 </p-sidebar>

@@ -44,10 +44,7 @@ public class FlightService {
     }
 
     public Flight findLastFlightForDrone(Drone drone) {
-        return this.flightRepository.findTopByDrone(drone);
+        return this.flightRepository.findTopByDroneOrderByIdDesc(drone);
     }
 
-    public Flight findLastFlightForDroneByRegistrationNumber(String registrationNumber) {
-        return this.flightRepository.findTopByDrone_RegistrationNumber(registrationNumber);
-    }
 }

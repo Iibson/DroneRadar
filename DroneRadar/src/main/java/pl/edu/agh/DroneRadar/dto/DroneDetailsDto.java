@@ -4,13 +4,17 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Component;
+import pl.edu.agh.DroneRadar.component.Coordinate;
 import pl.edu.agh.DroneRadar.component.RecordType;
+import pl.edu.agh.DroneRadar.features.GFG;
 import pl.edu.agh.DroneRadar.model.Drone;
 import pl.edu.agh.DroneRadar.model.Flight;
+import pl.edu.agh.DroneRadar.model.FlightDataEntry;
 import pl.edu.agh.DroneRadar.model.Record;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -53,15 +57,23 @@ public class DroneDetailsDto {
     @Getter
     @Setter
     private static class FlightData {
-        FlightData(Long id, Timestamp takeOff, Timestamp landing){
+        FlightData(Long id, Date takeOff, Date landing, double distance, Coordinate startCoordinate, Coordinate endCoordinate, double avgAltitude){
             this.id = id;
             this.takeOff = takeOff;
             this.landing = landing;
+            this.distance = distance;
+            this.startCoordinate = startCoordinate;
+            this.endCoordinate = endCoordinate;
+            this.avgAltitude = avgAltitude;
         }
 
         Long id;
-        Timestamp takeOff;
-        Timestamp landing;
+        Date takeOff;
+        Date landing;
+        double distance;
+        Coordinate startCoordinate;
+        Coordinate endCoordinate;
+        double avgAltitude;
     }
 
     @Getter
@@ -104,22 +116,31 @@ public class DroneDetailsDto {
         Flight lastFlight = drone.getFlights().get(drone.getFlights().size()-1);
         Record lastRecord = lastFlight.getRecords().get(lastFlight.getRecords().size()-1);
         if(lastRecord.getBasicRecordData().getRecordType()!= RecordType.DROP) {
-            System.out.println("DZIALA");
             System.out.println(lastRecord.getFlightDataEntry().getAltitude());
             results.currentFlight = new CurrentFlightData(lastRecord.getFlightDataEntry().getHeading(),
                     lastRecord.getFlightDataEntry().getSpeed(),
                     lastRecord.getFlightDataEntry().getAltitude());
         }
-        System.out.println(results.currentFlight.altitude);
-        results.flights = drone.getFlights().stream().map(flight -> new FlightData(
-                flight.getId(),
-                new Timestamp(32531),
-                new Timestamp(32151234)
+        results.flights = drone.getFlights().stream().map(flight -> {
+            double distance = 0;
+            for(int i=0; i<flight.getRecords().size()-1; i++) {
+                Coordinate firstCord = flight.getRecords().get(i).getFlightDataEntry().getCoordinate();
+                Coordinate secondCord = flight.getRecords().get(i+1).getFlightDataEntry().getCoordinate();
+                distance += GFG.distance(firstCord.getLatitude(), secondCord.getLatitude(), firstCord.getLongitude(), secondCord.getLongitude());
+            }
+            double avgAltitude = flight.getRecords().stream().mapToDouble(record -> record.getFlightDataEntry().getAltitude()).sum() / flight.getRecords().size();
+            return new FlightData(
+                    flight.getId(),
+                    flight.getRecords().get(0).getBasicRecordData().getDate(),
+                    flight.getRecords().get(flight.getRecords().size() - 1).getBasicRecordData().getDate(),
+                    distance,
+                    flight.getRecords().get(0).getFlightDataEntry().getCoordinate(),
+                    flight.getRecords().get(flight.getRecords().size()-1).getFlightDataEntry().getCoordinate(),
+                    avgAltitude
 //                flight.getRecords().stream().map(a -> a.getBasicRecordData().getTimestamp()).sorted().findFirst().get(),
 //                flight.getRecords().stream().sorted((a, b) -> b.getBasicRecordData().getTimestamp().compareTo(a.getBasicRecordData().getTimestamp())).findFirst().get().getBasicRecordData().getTimestamp()
-                )
-        ).collect(Collectors.toList());
-
+            );
+        }).collect(Collectors.toList());
 
         return results;
     }
