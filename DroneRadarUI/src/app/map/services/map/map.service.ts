@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 import { RxStomp, RxStompConfig } from '@stomp/rx-stomp';
 import { Message } from '@stomp/stompjs';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable, Subject } from 'rxjs';
 import { IMapObjectInfoDto } from '../../../../shared/model/map-object-info-dto.model';
-
+import * as uuid from 'uuid';
+import { FilterDto } from 'src/shared/model/filters-dto.model';
 @Injectable({
   providedIn: 'root',
 })
 export class MapService {
   latestMapData!: IMapObjectInfoDto[];
+  clientId: string;
   private _currentMapSnapshot!: IMapObjectInfoDto[];
   private webSocketEndpoint = 'ws://localhost:8080';
   private stompClient: RxStomp;
@@ -18,6 +20,9 @@ export class MapService {
     this.stompClient = new RxStomp();
     this.stompClient.configure(this.getStompConfig());
     this.stompClient.activate();
+    this.clientId = uuid.v4();
+    this.observeMapData = new Subject();
+    this.registerClientAndObserveMapData();
   }
   get currentMapSnapshot(): IMapObjectInfoDto[] {
     if (!this._currentMapSnapshot) this.refreshMapSnapshot();
@@ -42,17 +47,39 @@ export class MapService {
     };
   }
 
-  observeMapData(): Observable<IMapObjectInfoDto[]> {
-    return this.stompClient.watch('/client/map-data').pipe(
-      map((rawMessage: Message) => {
-        return JSON.parse(rawMessage.body);
-      })
-    );
-  }
+  observeMapData: Subject<IMapObjectInfoDto[]>;
 
   refreshMapSnapshot(): void {
     this._currentMapSnapshot = JSON.parse(
       JSON.stringify(this.latestMapData ?? null)
     );
+  }
+
+  applyFilters(filters: FilterDto[]): void {
+    this.stompClient.publish({
+      destination: '/server/' + this.clientId + '/apply-filters',
+      body: JSON.stringify(filters),
+    });
+  }
+  resetFilters(): void{
+    this.stompClient.publish({
+      destination: '/server/' + this.clientId + '/reset-filters'
+    });
+  }
+  registerClientAndObserveMapData() {
+    this.stompClient
+      .watch('/client/' + this.clientId + '/map-data')
+      .pipe(
+        map((rawMessage: Message) => {
+          return JSON.parse(rawMessage.body);
+        })
+      )
+      .subscribe((result) => {
+        this.observeMapData.next(result);
+      });
+    this.stompClient.publish({
+      destination: '/server/register',
+      body: this.clientId,
+    });
   }
 }

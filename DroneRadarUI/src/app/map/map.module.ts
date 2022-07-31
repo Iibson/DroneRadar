@@ -14,6 +14,10 @@ import { ButtonModule } from 'primeng/button';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { DroneService } from './services/drone/drone.service';
 import { DroneInfoSidebarComponent } from './components/drone-info-sidebar/drone-info-sidebar.component';
+import { FiltersSidebarComponent } from './components/filters-sidebar/filters-sidebar.component';
+import { DividerModule } from 'primeng/divider';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SliderModule } from 'primeng/slider';
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
 
 @NgModule({
@@ -21,19 +25,24 @@ import {InfiniteScrollModule} from "ngx-infinite-scroll";
     MapViewComponent,
     MapMenuComponent,
     MapExpandingSideButtonComponent,
+    FiltersSidebarComponent,
     DroneListSidebarComponent,
     DroneInfoSidebarComponent,
   ],
-    imports: [
-        CommonModule,
-        MapRoutingModule,
-        HttpClientModule,
-        AngularSvgIconModule.forRoot(),
-        SidebarModule,
-        ButtonModule,
-        ScrollPanelModule,
-        InfiniteScrollModule,
-    ],
+  imports: [
+    CommonModule,
+    MapRoutingModule,
+    HttpClientModule,
+    AngularSvgIconModule.forRoot(),
+    SidebarModule,
+    ButtonModule,
+    ScrollPanelModule,
+    DividerModule,
+    ReactiveFormsModule,
+    SliderModule,
+    FormsModule,
+    InfiniteScrollModule,
+  ],
   providers: [MapService, SidebarsService, DroneService],
 })
 export class MapModule {}

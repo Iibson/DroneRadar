@@ -6,9 +6,11 @@ import { Injectable } from '@angular/core';
 export class SidebarsService {
   droneListSidebarVisible: boolean;
   droneInfoSidebarVisible: boolean;
+  filtersSidebarVisible: boolean;
 
   constructor() {
     this.droneListSidebarVisible = false;
     this.droneInfoSidebarVisible = false;
+    this.filtersSidebarVisible = false;
   }
 }

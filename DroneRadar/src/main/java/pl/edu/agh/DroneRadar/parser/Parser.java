@@ -70,8 +70,7 @@ public class Parser {
         Drone drone = droneService.findDroneByRegistrationNumber(flightData.getRegistrationNumber());
 
 
-
-        if(drone == null) {
+        if (drone == null) {
             drone = Drone.builder()
                     .country(LocaleUtils.toLocale(flightData.getCountry()))
                     .identification(Short.parseShort(flightData.getDroneIdentification()))
@@ -140,18 +139,29 @@ public class Parser {
                 .sensor(sensor)
                 .build();
 
-        this.systemCache.insertOrUpdateEntry(new DroneCacheEntry(Float.parseFloat(flightData.getLatitude()),
-                Float.parseFloat(flightData.getLongitude()),
-                Float.parseFloat(flightData.getHeading()),
-                flightData.getRegistrationNumber()));
+        System.out.println("file parsed");
+        var toInsertOrUpdate = DroneCacheEntry.builder()
+                .latitude(Float.parseFloat(flightData.getLatitude()))
+                .longitude(Float.parseFloat(flightData.getLongitude()))
+                .heading(Float.parseFloat(flightData.getHeading()))
+                .registrationNumber(drone.getRegistrationNumber())
+                .identification(drone.getIdentification())
+                .country(flightData.getCountry())
+                .fuelState(flightData.getFuel())
+                .frequency(flightData.getFrequency())
+                .signal(flightData.getSignal())
+                .model(drone.getModel())
+                .type(drone.getType())
+                .build();
+        this.systemCache.insertOrUpdateEntry(toInsertOrUpdate);
 
         //if(!sensorService.checkIfSensorExistsById(sensor.getId())){
         sensorService.addSensor(sensor);
         // }
-        if(!droneService.checkIfDroneExistsByRegistrationNumber(drone.getRegistrationNumber())){
+        if (!droneService.checkIfDroneExistsByRegistrationNumber(drone.getRegistrationNumber())) {
             droneService.addDrone(drone);
         }
-        if(RecordType.valueOf(flightData.getFlag()) == RecordType.BEG){
+        if (RecordType.valueOf(flightData.getFlag()) == RecordType.BEG) {
             flight = flightService.addFlight(flight);
         }
      /*   if(!flightService.checkIfFlightExistsById(flightId)){

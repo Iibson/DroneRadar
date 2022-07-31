@@ -27,20 +27,21 @@ public class SystemCacheTests {
     @Test
     public void updateEntryOnUpdateAction() {
         //given
-        cache.insertOrUpdateEntry(new DroneCacheEntry(1f, 1f, 1f, "(short) 1"));
+        cache.insertOrUpdateEntry(
+                DroneCacheEntry.builder().latitude(1f).longitude(1f).heading(1f).registrationNumber("(short) 1").build());
         //when
-        cache.insertOrUpdateEntry(new DroneCacheEntry(2f, 2f, 1f,  "(short) 1"));
+        cache.insertOrUpdateEntry(DroneCacheEntry.builder().latitude(2f).longitude(2f).heading(1f).registrationNumber("(short) 1").build());
         //then
         var entry = cache.getLatestEntries()
                 .get(0);
 
-        Assertions.assertThat(entry.latitude()).isEqualTo(2);
+        Assertions.assertThat(entry.getLatitude()).isEqualTo(2);
     }
 
     @Test
     public void removeEntryOnRemovalAction() {
         //given
-        cache.insertOrUpdateEntry(new DroneCacheEntry(1f, 1f, 1f,  "(short) 1"));
+        cache.insertOrUpdateEntry(DroneCacheEntry.builder().latitude(1f).longitude(1f).heading(1f).registrationNumber("(short) 1").build());
         //when
         cache.removeEntryByRegistrationNumber("(short) 1");
         //then
@@ -51,7 +52,7 @@ public class SystemCacheTests {
     @Test
     public void removeEntryAfterTime() throws InterruptedException {
         //given
-        cache.insertOrUpdateEntry(new DroneCacheEntry(1f, 1f, 1f,  "(short) 1"));
+        cache.insertOrUpdateEntry(DroneCacheEntry.builder().latitude(1f).longitude(1f).heading(1f).registrationNumber("(short) 1").build());
         //when
         Thread.sleep(entryLiveSpan + 1000);
         //then
@@ -62,10 +63,10 @@ public class SystemCacheTests {
     @Test
     public void updatingEntryResetsRemoveTimer() throws InterruptedException {
         //given
-        cache.insertOrUpdateEntry(new DroneCacheEntry(1f, 1f, 1f,  "(short) 1"));
+        cache.insertOrUpdateEntry(DroneCacheEntry.builder().latitude(1f).longitude(1f).heading(1f).registrationNumber("(short) 1").build());
         //when
         Thread.sleep(entryLiveSpan - 1);
-        cache.insertOrUpdateEntry(new DroneCacheEntry(1f, 1f, 1f,  "(short) 1"));
+        cache.insertOrUpdateEntry(DroneCacheEntry.builder().latitude(1f).longitude(1f).heading(1f).registrationNumber("(short) 1").build());
         Thread.sleep(2);
         //then
         Assertions.assertThat(cache.getLatestEntries())
@@ -75,12 +76,12 @@ public class SystemCacheTests {
     @Test
     public void gettingEntriesByAreaShouldReturnCorrectResults() {
         //given
-        var entry1 = new DroneCacheEntry(15f, 15f, 1f,  "(short) 2");
-        var entry2 = new DroneCacheEntry(20f, 20f, 1f,  "(short) 3");
-        cache.insertOrUpdateEntry(new DroneCacheEntry(10f, 10f, 1f,  "(short) 1"));
+        var entry1 = DroneCacheEntry.builder().latitude(15f).longitude(15f).heading(1f).registrationNumber("(short) 2").build();
+        var entry2 = DroneCacheEntry.builder().latitude(20f).longitude(20f).heading(1f).registrationNumber("(short) 3").build();
+        cache.insertOrUpdateEntry(DroneCacheEntry.builder().latitude(10f).longitude(10f).heading(1f).registrationNumber("(short) 1").build());
         cache.insertOrUpdateEntry(entry1);
         cache.insertOrUpdateEntry(entry2);
-        cache.insertOrUpdateEntry(new DroneCacheEntry(25f, 25f, 1f,  "(short) 4"));
+        cache.insertOrUpdateEntry(DroneCacheEntry.builder().latitude(25f).longitude(25f).heading(1f).registrationNumber("(short) 4").build());
         //when
         var entries = cache.getLatestEntriesByArea(21, 21, 14, 14);
         //then
