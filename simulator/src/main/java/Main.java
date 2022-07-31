@@ -9,15 +9,18 @@ import org.apache.commons.io.FileUtils;
 
 public class Main {
     public static void main(String[] args) throws IOException, NoConfigFileException, InterruptedException, WrongFileCreatorType {
+        Thread.sleep(6000);
+
 
         var config = Configuration.initConfiguration("config.json");
         var droneFileGenerator = new DroneFileTemplatesGenerator(config);
-        FileUtils.cleanDirectory(new File(config.getFilePath()));
 
         var filePath = config.getFilePath();
         if(args.length > 0){
             filePath = args[0];
         }
+
+        FileUtils.cleanDirectory(new File(filePath));
 
         System.out.println("File path: " + filePath);
 

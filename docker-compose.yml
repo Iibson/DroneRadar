@@ -1,25 +1,23 @@
 version: '3'
 
 services:
+  backend:
+    build: ./DroneRadar
+    volumes:
+      - ${DATA_PATH}:/data_exchange/
+    ports:
+      - "8080:8080"
+    restart: always
+
   frontend:
     build: ./DroneRadarUI
     ports:
       - "4200:80"
-  backend:
-    build: ./DroneRadar
-    volumes:
-      - ${DATA_PATH}:/home/krzysztof/test2
-    ports:
-      - "8080:8080"
-    restart: always
-    command:
-      - --path.path=${DATA_PATH}
+
   simulator:
     build: ./simulator
     environment:
       - DATA_PATH=${DATA_PATH}
     volumes:
-      - ${DATA_PATH}:/home/krzysztof/test2
+      - ${DATA_PATH}:/data_exchange/
     restart: always
-    command:
-      - ${DATA_PATH}

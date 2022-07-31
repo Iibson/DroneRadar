@@ -1,5 +1,5 @@
 {
-  "filePath": "C:\\Users\\MichalSkorek\\Documents\\droneradar\\DroneRadar\\DroneRadar\\src\\flightData",
+  "filePath": "/data_exchange/",
   "createdFileTypes" : "csv",
   "droneNumber": 100,
   "startLat": 50,
