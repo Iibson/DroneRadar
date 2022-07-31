@@ -3,5 +3,5 @@ export interface IMapObjectInfoDto {
   lat: number;
   lon: number;
   heading: number;
-  basicinfoString: string;
+  basicInfoString: string;
 }

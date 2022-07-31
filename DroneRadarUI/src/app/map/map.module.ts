@@ -18,6 +18,7 @@ import { FiltersSidebarComponent } from './components/filters-sidebar/filters-si
 import { DividerModule } from 'primeng/divider';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SliderModule } from 'primeng/slider';
+import {InfiniteScrollModule} from "ngx-infinite-scroll";
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { SliderModule } from 'primeng/slider';
     DividerModule,
     ReactiveFormsModule,
     SliderModule,
-    FormsModule
+    FormsModule,
+    InfiniteScrollModule,
   ],
   providers: [MapService, SidebarsService, DroneService],
 })

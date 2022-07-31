@@ -26,6 +26,7 @@
     "font-awesome": "^4.7.0",
     "leaflet": "^1.8.0",
     "leaflet-marker-rotation": "^0.4.0",
+    "ngx-infinite-scroll": "^14.0.0",
     "primeicons": "^5.0.0",
     "primeng": "^14.0.0-rc.1",
     "rxjs": "~7.4.0",

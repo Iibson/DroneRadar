@@ -115,7 +115,7 @@ export class MapViewComponent implements AfterViewInit, OnInit, OnDestroy {
               rotationAngle: obj.heading,
               rotationOrigin: 'center',
             })
-              .bindPopup(obj.basicinfoString)
+              .bindPopup(obj.basicInfoString)
               .addTo(this.markerGroup)
               .on('click',(event) => this.markerClick(this, obj.objectId))
           );
@@ -140,7 +140,7 @@ export class MapViewComponent implements AfterViewInit, OnInit, OnDestroy {
       this.showDroneInfoExpandingButton = true;
       this._droneService.notifyAboutDroneInfo(res);
       console.log(res)
-    });  
+    });
   }
   showSelectedDoneInfo = () => {
     this._sidebarsService.droneInfoSidebarVisible = true;
