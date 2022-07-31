@@ -1,7 +1,8 @@
 <button [class]="'expanding-side-button expanding-side-button-' + side"
   [style.top]="topPosition"
   (click)="onClick.emit()">
-  <i [class]="'icon ' + iconClass"></i>
-  <span class="button-text"
-    [style.text-align]="side">{{buttonText}}</span>
+  <i [class]="'icon icon-'+side+' '+ iconClass"></i>
+  <div class="button-text"
+    [style.text-align]="side">
+    {{buttonText}}</div>
 </button>

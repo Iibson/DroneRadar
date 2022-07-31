@@ -17,6 +17,7 @@
     font-size:1.0rem;
     margin-right:10px;
     margin-left:10px;
+    line-height: 50px;
   }
   &-left {
     left: 0;
@@ -29,11 +30,16 @@
     border-bottom-left-radius: 25px;
   }
   &:hover{
-    width: 120px;
+    width: 140px;
     transition: width 0.7s;
     cursor: pointer;
     & .icon{
-      float: right;
+      &-left{
+        float: right;
+      }
+      &-right{
+        float: left;
+      }
     }
     & .button-text{
       opacity: 1;
@@ -44,11 +50,12 @@
     opacity: 0;
     padding-left:15px;
     padding-right:15px;
-    transition: opacity 0.5s;
+    transition: opacity 0.75s;
     position: absolute;
     width: 100%;
     overflow:hidden;
     white-space: nowrap;
+    line-height: 50px;
     left: 0;
   }
 }
