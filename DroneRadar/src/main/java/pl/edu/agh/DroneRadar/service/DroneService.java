@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import pl.edu.agh.DroneRadar.model.Drone;
 import pl.edu.agh.DroneRadar.repository.DroneRepository;
 
+import java.util.Collection;
+import java.util.List;
+
 @Service
 public class DroneService {
     private final DroneRepository droneRepository;
@@ -39,5 +42,13 @@ public class DroneService {
     public Page<Drone> findAllWithPagination(int page, int elements){
         Pageable pageable = PageRequest.of(page, elements, Sort.by("identification").ascending());
         return droneRepository.findAllByFlightsNotNull(pageable);
+    }
+
+    public Page<Drone> findDronesByRegistrationNumberIn(List<String> registrationNumbers, int page, int elements) {
+        Pageable pageable = PageRequest.of(page, elements, Sort.by("identification").ascending());
+        return droneRepository.findDronesByRegistrationNumberIn(registrationNumbers, pageable);
+    }
+    public List<Drone> findDronesByRegistrationNumberInList(List<String> registrationNumbers) {
+        return droneRepository.findDronesByRegistrationNumberIn(registrationNumbers);
     }
 }
