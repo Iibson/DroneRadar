@@ -37,7 +37,6 @@ public class SocketCommunicationController {
     public void sendMapData() {
 
         var objects = systemCache.getLatestEntries();
-        var x = objects.toArray();
         this.clients.forEach((clientId, filters) -> {
             this.pool.submit(() -> {
                 var toSend = objects.stream()
