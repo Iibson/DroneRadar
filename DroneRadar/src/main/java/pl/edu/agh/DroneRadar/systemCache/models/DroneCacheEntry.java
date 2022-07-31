@@ -29,7 +29,6 @@ public class DroneCacheEntry {
         return filters.stream().filter(x -> !x.getCompareValues().isEmpty()).allMatch(filter -> {
             try {
                 var entryField = DroneCacheEntry.class.getField(filter.getPropertyName()).get(this).toString().toLowerCase(Locale.ROOT);
-                System.out.println(filter.getCompareType());
                 switch (filter.getCompareType()) {
                     case CONTAINS -> {
                         var compareValue = filter.getCompareValues()
