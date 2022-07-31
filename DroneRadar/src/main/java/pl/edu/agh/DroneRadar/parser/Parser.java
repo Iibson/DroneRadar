@@ -144,12 +144,14 @@ public class Parser {
                 .latitude(Float.parseFloat(flightData.getLatitude()))
                 .longitude(Float.parseFloat(flightData.getLongitude()))
                 .heading(Float.parseFloat(flightData.getHeading()))
-                .registrationNumber(flightData.getRegistrationNumber())
-                .id(flightData.getId())
+                .registrationNumber(drone.getRegistrationNumber())
+                .identification(drone.getIdentification())
                 .country(flightData.getCountry())
                 .fuelState(flightData.getFuel())
                 .frequency(flightData.getFrequency())
-                .model(flightData.getModel())
+                .signal(flightData.getSignal())
+                .model(drone.getModel())
+                .type(drone.getType())
                 .build();
         this.systemCache.insertOrUpdateEntry(toInsertOrUpdate);
 

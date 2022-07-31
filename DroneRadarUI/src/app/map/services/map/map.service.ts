@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { RxStomp, RxStompConfig } from '@stomp/rx-stomp';
 import { Message } from '@stomp/stompjs';
 import { BehaviorSubject, map, Observable, Subject } from 'rxjs';
-import { FiltersDto } from 'src/shared/model/filters-dto.model';
 import { IMapObjectInfoDto } from '../../../../shared/model/map-object-info-dto.model';
 import * as uuid from 'uuid';
+import { FilterDto } from 'src/shared/model/filters-dto.model';
 @Injectable({
   providedIn: 'root',
 })
@@ -55,7 +55,7 @@ export class MapService {
     );
   }
 
-  applyFilters(filters: FiltersDto): void {
+  applyFilters(filters: FilterDto[]): void {
     this.stompClient.publish({
       destination: '/server/' + this.clientId + '/apply-filters',
       body: JSON.stringify(filters),

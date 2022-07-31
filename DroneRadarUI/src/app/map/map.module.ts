@@ -16,7 +16,9 @@ import { DroneService } from './services/drone/drone.service';
 import { DroneInfoSidebarComponent } from './components/drone-info-sidebar/drone-info-sidebar.component';
 import { FiltersSidebarComponent } from './components/filters-sidebar/filters-sidebar.component';
 import { DividerModule } from 'primeng/divider';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SliderModule } from 'primeng/slider';
+
 @NgModule({
   declarations: [
     MapViewComponent,
@@ -35,7 +37,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     ButtonModule,
     ScrollPanelModule,
     DividerModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SliderModule,
+    FormsModule
   ],
   providers: [MapService, SidebarsService, DroneService],
 })

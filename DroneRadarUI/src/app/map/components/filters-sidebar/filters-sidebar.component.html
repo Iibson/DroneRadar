@@ -16,12 +16,12 @@
         <div class="form__group field">
           <input type="input"
             class="form__field"
-            placeholder="id"
-            id='id'
-            name="id"
-            formControlName="id" />
-          <label for="Id"
-            class="form__label">Id</label>
+            placeholder="Identification"
+            id='identification'
+            name="identification"
+            formControlName="identification" />
+          <label for="identification"
+            class="form__label">Identification</label>
         </div>
         <p-divider align="left">
           <h4>Drone parameters</h4>
@@ -66,16 +66,20 @@
           <label for="registrationNumber"
             class="form__label">Registration Number</label>
         </div>
-        <div class="form__group field">
-          <input type="input"
-            class="form__field"
-            placeholder="Fuel state"
-            name="fuelState"
-            id='fuelState'
-            formControlName="fuelState" />
-          <label for="fuelState"
-            class="form__label">Fuel State</label>
+        <div class="form__group">
+          <label class="form-static-label">Fuel state:
+            <span class="text-white">
+              {{ fuelState[0] }} - {{ fuelState[1] }}
+            </span>
+          </label>
+          <div class="w-100 p-3">
+            <p-slider formControlName="fuelState"
+              [min]="0"
+              [max]="10000"
+              [range]="true"></p-slider>
+          </div>
         </div>
+
         <p-divider align="left">
           <h4>Sensor Info</h4>
         </p-divider>

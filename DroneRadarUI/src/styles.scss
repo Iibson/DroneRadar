@@ -44,7 +44,12 @@ $gray: #9b9b9b;
     top: 20px;
   }
 }
-
+.form-static-label{
+  font-size: 0.9rem;
+  cursor: text;
+  top: 20px;
+  color:$gray;
+}
 .form__label {
   position: absolute;
   top: 0;
