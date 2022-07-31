@@ -100,7 +100,7 @@ export class MapViewComponent implements AfterViewInit, OnInit, OnDestroy {
       );
 
   observeMapData(): Subscription {
-    return this._mapService.observeMapData().subscribe((objects) => {
+    return this._mapService.observeMapData.subscribe((objects) => {
       this._mapService.latestMapData = objects;
       objects.forEach((obj) => {
         const existingMarker = this.markersMap.get(obj.objectId);
@@ -144,5 +144,8 @@ export class MapViewComponent implements AfterViewInit, OnInit, OnDestroy {
   }
   showSelectedDoneInfo = () => {
     this._sidebarsService.droneInfoSidebarVisible = true;
+  }
+  showFiltersSidebar(): void{
+    this._sidebarsService.filtersSidebarVisible = true;
   }
 }

@@ -48,7 +48,7 @@ public class RestController {
 
     @GetMapping("/drones")
     public @ResponseBody ResponseEntity<Page<DroneBasicDataDto>> getDronesBasicData(@RequestParam int page, @RequestParam int elements){
-        List<String> dronesRegistrationNumbers = systemCache.getLatestEntries().stream().map(DroneCacheEntry::registrationNumber).toList();
+        List<String> dronesRegistrationNumbers = systemCache.getLatestEntries().stream().map(DroneCacheEntry::getRegistrationNumber).toList();
         Page<Drone> dtoList = droneService.findDronesByRegistrationNumberIn(dronesRegistrationNumbers, page, elements);
         Page<DroneBasicDataDto> dtoPage = dtoList.map(new Function<Drone, DroneBasicDataDto>() {
             @Override
