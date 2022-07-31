@@ -9,7 +9,6 @@ import lombok.Setter;
 
 import java.io.IOException;
 
-@Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,6 +22,7 @@ public class Configuration {
     private String createdFileTypes;
     private Integer maxNumberOfFiles;
     private Integer maxNumberOfDronesGeneratedAtOnce;
+    private Integer numberOfPreGeneratedDrones;
 
     public static Configuration initConfiguration(String filename) throws IOException, NoConfigFileException {
         var file = Configuration.class

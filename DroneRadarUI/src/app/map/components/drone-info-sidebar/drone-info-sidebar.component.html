@@ -24,6 +24,18 @@
             <div>Registration number</div>
             <div>{{droneInfo.registrationNumber}}</div>
         </div>
+        <div class="info" *ngIf="droneInfo.currentFlight">
+            <div>Current Heading</div>
+            <div>{{droneInfo.currentFlight.heading}}</div>
+        </div>
+        <div class="info" *ngIf="droneInfo.currentFlight">
+            <div>Current Speed</div>
+            <div>{{droneInfo.currentFlight.speed}}</div>
+        </div>
+        <div class="info" *ngIf="droneInfo.currentFlight">
+            <div>Current Altitude</div>
+            <div>{{droneInfo.currentFlight.altitude}}</div>
+        </div>
         <div class="info">
             <div>Country</div>
             <div>{{droneInfo.country}}</div>
@@ -56,7 +68,19 @@
             <div>Type</div>
             <div>{{droneInfo.type}}</div> 
         </div> 
-        
+        <p-scrollPanel [style]="scrollPanelStyle">
+            <div *ngFor="let flight of droneInfo.flights"
+              class="drone-list-sidebar-element">
+      
+              <div class="drone-list-sidebar-element-column">
+                <div class="drone-list-sidebar-element-informations">
+                  <div>
+                      Start Date: {{flight.takeOff}}, End Date {{flight.landing}}
+                  </div>
+                </div>
+              </div>
+            </div>
+        </p-scrollPanel>
     </div>
   </div>
 </p-sidebar>

@@ -32,7 +32,6 @@ public class RestController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-
     @GetMapping("/flight/{id}")
     public @ResponseBody ResponseEntity<FlightDetailsDto> getFlightDetails(@PathVariable Long id) {
         FlightDetailsDto dto = FlightDetailsDto.newInstance(flightService.findFlightById(id));
