@@ -3,7 +3,7 @@
 .drone-list-sidebar {
   margin-top: 15px;
   height: 88vh;
-  overflow: hidden;
+  overflow: auto;
   &-close-button,
   &-refresh-button {
     width: 100%;

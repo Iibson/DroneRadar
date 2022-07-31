@@ -28,6 +28,7 @@ public class FlightService {
 
     public void addRecordToFlight(Long flightId, Record record){
         ///Record r = recordService.addRecord(record);
+        System.out.println(flightId);
         Flight flight = flightRepository.getFlightById(flightId);
         flight.getRecords().add(record);
         record.setFlight(flight);
@@ -43,6 +44,7 @@ public class FlightService {
     }
 
     public Flight findLastFlightForDrone(Drone drone) {
-        return this.flightRepository.findTopByDrone(drone);
+        return this.flightRepository.findTopByDroneOrderByIdDesc(drone);
     }
+
 }

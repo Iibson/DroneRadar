@@ -12,8 +12,13 @@ import pl.edu.agh.DroneRadar.dto.FlightDetailsDto;
 import pl.edu.agh.DroneRadar.model.Drone;
 import pl.edu.agh.DroneRadar.service.DroneService;
 import pl.edu.agh.DroneRadar.service.FlightService;
+import pl.edu.agh.DroneRadar.systemCache.interfaces.SystemCache;
+import pl.edu.agh.DroneRadar.systemCache.models.DroneCacheEntry;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Controller
 @CrossOrigin(origins = "http://localhost:4200")
@@ -25,13 +30,15 @@ public class RestController {
     @Autowired
     FlightService flightService;
 
+    @Autowired
+    SystemCache systemCache;
+
     @GetMapping("/drone/{registrationNumber}")
     public @ResponseBody ResponseEntity<DroneDetailsDto> getDroneDetails(@PathVariable String registrationNumber) {
         DroneDetailsDto dto =  DroneDetailsDto.newInstance(droneService.findDroneByRegistrationNumber(registrationNumber));
         System.out.println(dto);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
-
 
     @GetMapping("/flight/{id}")
     public @ResponseBody ResponseEntity<FlightDetailsDto> getFlightDetails(@PathVariable Long id) {
@@ -41,7 +48,8 @@ public class RestController {
 
     @GetMapping("/drones")
     public @ResponseBody ResponseEntity<Page<DroneBasicDataDto>> getDronesBasicData(@RequestParam int page, @RequestParam int elements){
-        Page<Drone> dtoList = droneService.findAllWithPagination(page, elements);
+        List<String> dronesRegistrationNumbers = systemCache.getLatestEntries().stream().map(DroneCacheEntry::registrationNumber).toList();
+        Page<Drone> dtoList = droneService.findDronesByRegistrationNumberIn(dronesRegistrationNumbers, page, elements);
         Page<DroneBasicDataDto> dtoPage = dtoList.map(new Function<Drone, DroneBasicDataDto>() {
             @Override
             public DroneBasicDataDto apply(Drone drone) {
@@ -49,5 +57,12 @@ public class RestController {
             }
         });
         return new ResponseEntity<>(dtoPage, HttpStatus.OK);
+    }
+
+    @GetMapping("/drones-ids")
+    public @ResponseBody ResponseEntity<List<DroneBasicDataDto>> getDronesBasicData(@RequestParam String[] drones){
+        List<Drone> dtoList = droneService.findDronesByRegistrationNumberInList(Arrays.stream(drones).toList());
+
+        return new ResponseEntity<>(dtoList.stream().map(DroneBasicDataDto::newInstance).toList(), HttpStatus.OK);
     }
 }
