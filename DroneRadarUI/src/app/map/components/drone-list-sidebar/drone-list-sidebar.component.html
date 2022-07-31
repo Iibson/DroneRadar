@@ -17,8 +17,9 @@
         class="p-button-secondary p-button-text"
         (click)="close()"></i>
     </div>
-    <div class="drone-list-sidebar-content">
-      <p-scrollPanel [style]="scrollPanelStyle">
+    <div class="drone-list-sidebar-content" infinite-scroll (scrolled)="onScrollDown($event)"
+         (scrolledUp)="onScrollUp($event)" [scrollWindow]="false">
+      <div [style]="scrollPanelStyle">
         <div *ngFor="let drone of dronesList"
           class="drone-list-sidebar-element">
           <div class="drone-list-sidebar-element-column drone-list-sidebar-element-icon">
@@ -27,11 +28,11 @@
           </div>
           <div class="drone-list-sidebar-element-column">
             <div class="drone-list-sidebar-element-informations">
-              ID:{{drone.objectId}}, lat:{{drone.lat | number : '1.2-2'}} lon:{{drone.lon | number : '1.2-2'}}
+              ID:{{drone.identification}}, model: {{drone.model}}<br />registration number: {{drone.registrationNumber}}
             </div>
           </div>
         </div>
-      </p-scrollPanel>
+      </div>
     </div>
   </div>
 </p-sidebar>
