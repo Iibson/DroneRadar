@@ -40,8 +40,7 @@ public class SocketCommunicationController {
         this.clients.forEach((clientId, filters) -> {
             this.pool.submit(() -> {
                 var toSend = objects.stream()
-                        .filter(entry -> filters.size() > 0)
-                        .filter(entry -> entry.doesMeetFilters(filters))
+                        .filter(entry -> filters.size() == 0  || entry.doesMeetFilters(filters))
                         .map(dto -> new MapObjectInfoDto(dto.getRegistrationNumber(),
                                 dto.getLatitude(),
                                 dto.getLongitude(),
