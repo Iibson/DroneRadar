@@ -19,7 +19,7 @@ public class Main {
             filePath = args[0];
         }
 
-        System.out.println(filePath);
+        System.out.println("File path: " + filePath);
 
         try {
             droneFileGenerator.exec();
